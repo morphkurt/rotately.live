@@ -334,7 +334,6 @@
                 const tkhdOffsetAndSize = findVideoTkhdOffset(fileBuffer);
                 if (tkhdOffsetAndSize) {
                     const matrixOffset = calculateMatrixOffset(fileBuffer, tkhdOffsetAndSize[0]);
-                    console.log(matrixOffset)
                     modifyTkhdMatrix(fileBuffer, matrixOffset, rotationAngle.value)
 
                     const blob = new Blob([fileBuffer], { type: 'video/mp4' });
