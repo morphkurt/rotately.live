@@ -134,7 +134,7 @@ export function modifyTkhdMatrix(fileBuffer, matrixOffset, rotation = '90cw') {
             break;
     }
     const byteArray = new Uint8Array(matrixBytes.buffer);
-    fileBuffer.set(byteArray, matrixOffset + 8);
+    fileBuffer.set(byteArray, matrixOffset);
 }
 export function calculateMatrixOffset(fileBuffer, tkhdOffset) {
     // Read the version byte (first byte of the box content)
@@ -142,7 +142,7 @@ export function calculateMatrixOffset(fileBuffer, tkhdOffset) {
     // Based on the standard, the matrix follows:
     // Version 0: 4 (fullbox) + 32 (creation_time to duration) + 8 (reserved) + 4 (layer & alternate_group) + 4 (volume & reserved) = 52 bytes
     // Version 1: 4 (fullbox) + 64 (creation_time to duration) + 8 (reserved) + 4 (layer & alternate_group) + 4 (volume & reserved) = 84 bytes
-    let matrixOffset = tkhdOffset + 4; // Skip the FullBox header (version + flags)
+    let matrixOffset = tkhdOffset + 12; // Skip the FullBox header (version + flags) + and atom header
     // Add the size of the fields before the matrix
     if (version === 1) {
         // 64-bit creation_time, modification_time, 32-bit track_ID, 32-bit reserved, 64-bit duration

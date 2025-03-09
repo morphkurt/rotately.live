@@ -2,15 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-74PEEERKRB"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-74PEEERKRB');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Rotation Tool</title>
@@ -130,6 +121,7 @@
         }
 
         .info-message {
+            font-style: italic;
             text-align: center;
             margin-bottom: 1.5rem;
             color: #777;
@@ -216,8 +208,12 @@
         <p class="instructions">Upload a video, select rotation angle, and download the rotated video</p>
 
         <div class="upload-area" id="uploadArea">
-            <div class="upload-icon">⬆</div>
-            <p>Drag and drop your video here or click to browse</p>
+            <div class="upload-icon">
+                <!-- SVG Upload Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm1 16h-2v-4H8l4-4 4 4h-3v4z"  fill="var(--primary-color)"/>
+                </svg>
+            </div>            <p>Drag and drop your video here or click to browse</p>
             <input type="file" id="videoInput" accept="video/*" style="display: none;">
         </div>
 
@@ -230,9 +226,9 @@
             <div class="select-container">
                 <select id="rotationAngle">
                     <option value="" disabled selected>Select rotation angle</option>
-                    <option value="90cw">90° Clockwise</option>
-                    <option value="90ccw">90° Counter-Clockwise</option>
+                    <option value="90cw">90°</option>
                     <option value="180">180°</option>
+                    <option value="90ccw">270°</option>
                 </select>
             </div>
 
