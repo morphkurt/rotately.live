@@ -164,6 +164,17 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .error-message {
+            background-color: #ffebee;
+            color: #d32f2f;
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #d32f2f;
+        }
+
+
         .hidden {
             display: none;
         }
@@ -233,6 +244,13 @@
             <input type="file" id="videoInput" accept="video/*" style="display: none;">
         </div>
 
+
+        <!-- New error message container -->
+        <div class="error-message hidden" id="errorMessage">
+            This video format is not supported. Please try a different video file (.mp4 format recommended).
+        </div>
+
+
         <div class="video-preview hidden" id="videoPreview">
             <video id="video" controls></video>
             <p class="file-name" id="fileName"></p>
@@ -258,7 +276,7 @@
         </div>
     </div>
     <script type="module">
-        import { findVideoTkhdOffset, calculateMatrixOffset, modifyTkhdMatrix } from './dist/mp4_tkhd.js';
+        import { findVideoTkhdOffset, calculateMatrixOffset, modifyTkhdMatrix, getMatrix } from './dist/mp4_tkhd.js';
         document.addEventListener('DOMContentLoaded', function () {
             const uploadArea = document.getElementById('uploadArea');
             const videoInput = document.getElementById('videoInput');
@@ -267,6 +285,7 @@
             const fileName = document.getElementById('fileName');
             const rotationAngle = document.getElementById('rotationAngle');
             const downloadBtn = document.getElementById('downloadBtn');
+            let currentMatrix = null;
             let fileBuffer;
 
             let originalVideo = null;
@@ -307,6 +326,7 @@
             });
 
             function handleFileUpload(file) {
+                document.getElementById('errorMessage').classList.add('hidden');
                 originalVideo = file;
 
                 const reader = new FileReader();
@@ -346,7 +366,10 @@
                 const tkhdOffsetAndSize = findVideoTkhdOffset(fileBuffer);
                 if (tkhdOffsetAndSize) {
                     const matrixOffset = calculateMatrixOffset(fileBuffer, tkhdOffsetAndSize[0]);
-                    modifyTkhdMatrix(fileBuffer, matrixOffset, rotationAngle.value)
+                    if (currentMatrix == null) {
+                        currentMatrix = getMatrix(fileBuffer, matrixOffset);
+                    }
+                    modifyTkhdMatrix(fileBuffer, matrixOffset, currentMatrix, rotationAngle.value)
 
                     const blob = new Blob([fileBuffer], { type: 'video/mp4' });
                     const url = URL.createObjectURL(blob);
@@ -362,7 +385,7 @@
                     // Optionally, revoke the object URL after download to free memory
                     URL.revokeObjectURL(url);
                 } else {
-                    console.log('Video track not found.');
+                    document.getElementById('errorMessage').classList.remove('hidden');
                 }
             });
         });

@@ -1,3 +1,59 @@
+export const IDENTITY_MATRIX = new Uint8Array([
+    // First row
+    0x00, 0x01, 0x00, 0x00, // 0x00010000
+    0x00, 0x00, 0x00, 0x00, // 0x00000000
+    0x00, 0x00, 0x00, 0x00, // 0x00000000
+    // Second row
+    0x00, 0x00, 0x00, 0x00, // 0x00000000
+    0x00, 0x01, 0x00, 0x00, // 0x00010000
+    0x00, 0x00, 0x00, 0x00, // 0x00000000
+    // Third row
+    0x00, 0x00, 0x00, 0x00, // 0x00000000
+    0x00, 0x00, 0x00, 0x00, // 0x00000000
+    0x40, 0x00, 0x00, 0x00 // 0x40000000
+]);
+export const ROTATE_90 = new Uint8Array([
+    // First row
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x01, 0x00, 0x00, // 1.0 in fixed point (0x00010000)
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    // Second row
+    0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    // Third row
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x40, 0x00, 0x00, 0x00 // 1.0 in fixed point (0x40000000)
+]);
+export const ROTATE_180 = new Uint8Array([
+    // First row
+    0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    // Second row
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    // Third row
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x40, 0x00, 0x00, 0x00 // 1.0 in fixed point (0x40000000)
+]);
+export const ROTATE_270 = new Uint8Array([
+    // First row
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    // Second row
+    0x00, 0x01, 0x00, 0x00, // 1.0 in fixed point (0x00010000)
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    // Third row
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x00, 0x00, 0x00, 0x00, // 0.0
+    0x40, 0x00, 0x00, 0x00 // 1.0 in fixed point (0x40000000)
+]);
 export function readUInt32BE(fileBuffer, offset) {
     const view = new DataView(fileBuffer.buffer, fileBuffer.byteOffset, fileBuffer.byteLength);
     return view.getUint32(offset, false); // false for big-endian
@@ -65,76 +121,42 @@ export function findVideoTkhdOffset(fileBuffer) {
     }
     return null;
 }
-export function modifyTkhdMatrix(fileBuffer, matrixOffset, rotation = '90cw') {
+export function getMatrix(fileBuffer, matrixOffset) {
+    return new Uint8Array(fileBuffer.slice(matrixOffset, matrixOffset + 36));
+}
+export function modifyTkhdMatrix(fileBuffer, matrixOffset, currentMatrix, rotation = '90cw') {
     if (matrixOffset + 36 > fileBuffer.length)
         return;
-    let matrixBytes = new Uint8Array([
-        // First row
-        0x00, 0x01, 0x00, 0x00, // 0x00010000
-        0x00, 0x00, 0x00, 0x00, // 0x00000000
-        0x00, 0x00, 0x00, 0x00, // 0x00000000
-        // Second row
-        0x00, 0x00, 0x00, 0x00, // 0x00000000
-        0x00, 0x01, 0x00, 0x00, // 0x00010000
-        0x00, 0x00, 0x00, 0x00, // 0x00000000
-        // Third row
-        0x00, 0x00, 0x00, 0x00, // 0x00000000
-        0x00, 0x00, 0x00, 0x00, // 0x00000000
-        0x40, 0x00, 0x00, 0x00 // 0x40000000
-    ]);
+    const matrix = [IDENTITY_MATRIX, ROTATE_90, ROTATE_180, ROTATE_270];
+    const index = findMatchingIndex(matrix, currentMatrix);
+    let matrixBytes = IDENTITY_MATRIX;
     // Set rotation matrix values based on specified rotation
     switch (rotation) {
         case '90cw':
-            matrixBytes = new Uint8Array([
-                // First row
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x01, 0x00, 0x00, // 1.0 in fixed point (0x00010000)
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                // Second row
-                0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                // Third row
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x40, 0x00, 0x00, 0x00 // 1.0 in fixed point (0x40000000)
-            ]);
-            break;
-        case '90ccw':
-            matrixBytes = new Uint8Array([
-                // First row
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                // Second row
-                0x00, 0x01, 0x00, 0x00, // 1.0 in fixed point (0x00010000)
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                // Third row
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x40, 0x00, 0x00, 0x00 // 1.0 in fixed point (0x40000000)
-            ]);
+            matrixBytes = matrix[(index + 1) % 4];
             break;
         case '180':
-            matrixBytes = new Uint8Array([
-                // First row
-                0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                // Second row
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0xFF, 0xFF, 0x00, 0x00, // -1.0 in fixed point (0xFFFF0000)
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                // Third row
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x00, 0x00, 0x00, 0x00, // 0.0
-                0x40, 0x00, 0x00, 0x00 // 1.0 in fixed point (0x40000000)
-            ]);
+            matrixBytes = matrix[(index + 2) % 4];
+            break;
+        case '90ccw':
+            matrixBytes = matrix[(index + 3) % 4];
             break;
     }
     const byteArray = new Uint8Array(matrixBytes.buffer);
     fileBuffer.set(byteArray, matrixOffset);
+    function areBytesEqual(a, b) {
+        if (a.length !== b.length)
+            return false;
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i])
+                return false;
+        }
+        return true;
+    }
+    function findMatchingIndex(matrix, target) {
+        const index = matrix.findIndex(item => areBytesEqual(item, target));
+        return index === -1 ? 0 : index; // Return 0 if no match is found
+    }
 }
 export function calculateMatrixOffset(fileBuffer, tkhdOffset) {
     // Read the version byte (first byte of the box content)
