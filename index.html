@@ -287,7 +287,6 @@
             const downloadBtn = document.getElementById('downloadBtn');
             let currentMatrix = null;
             let fileBuffer;
-
             let originalVideo = null;
 
             // Handle file upload via click
@@ -342,6 +341,7 @@
                 videoPreview.classList.remove('hidden');
 
                 // Enable download button when both video and rotation angle are selected
+                currentMatrix = null;
                 checkDownloadButtonState();
             }
 
