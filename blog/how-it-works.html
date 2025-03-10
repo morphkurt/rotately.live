@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Learn how Rotately works to rotate your videos quickly and securely, directly in your browser without uploading them anywhere.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
+
+    <!-- Prism.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+
+
+    <title>How Rotately Works | Browser-Based Video Rotation</title>
+    <style>
+        :root {
+            --primary-color: #ff5b1b;
+            --secondary-color: #ca9950;
+            --background-color: #f9f9f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --text-secondary: #666666;
+            --border-color: #eeeeee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--card-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .blog-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+
+        .blog-content {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+
+        .blog-content h2 {
+            color: var(--primary-color);
+            margin: 0.5rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .blog-content h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.4rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-content ul,
+        .blog-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .blog-content blockquote {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .cta-box {
+            background-color: rgba(255, 91, 27, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .cta-box h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background-color: #fafafa;
+        }
+
+        .info-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .navigation-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .nav-card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--card-color);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .buy-me-coffee {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        /* Code block styling */
+        code {
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        pre {
+            background: #b8b8b7;
+            /* Dark background */
+            color: #f8f8f2;
+            /* Light text */
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .blog-title {
+                font-size: 2rem;
+            }
+
+            .blog-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Functions */
+    </style>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false }
+                ]
+            });
+        });
+    </script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">Rotately</a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://www.buymeacoffee.com/rotately.live">Support Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="blog-header">
+            <h1 class="blog-title">How Rotately Works</h1>
+            <h2 class="blog-subtitle">Browser-Based Video Rotation That Respects Your Privacy</h2>
+        </div>
+
+        <article class="blog-content">
+            <h2>How Rotation works in MP4 File</h2>
+            <p>One thing we don’t do is transfer your video to our servers for processing. In fact, we don’t operate any
+                servers other than the one hosting this webpage.</p>
+            <p>This all started as a fun challenge. We wanted to see if we could edit videos using nothing but a hex
+                editor. No DaVinci, no Final Cut Pro, no FFmpeg—just raw hex editing. You might ask, <b>why?</b> Maybe
+                it’s monomania, but the reason doesn’t matter.</p>
+            <p>What matters is whether it’s possible. And, of course, anything is possible if you know what you’re
+                doing. But let’s start simple. Let’s rotate a video.</p>
+
+            <h3>MP4: A Quick Primer</h3>
+
+            <p>Before we rotate anything, here’s a 10-second spill on how video is stored on disk. We’re ignoring other
+                formats—MKV, AVI, MOV, whatever—and focusing purely on MP4.
+
+            <p>MP4 stands for <b>MPEG-4 Part 14</b>. It’s an ISO standard that Apple initially developed as the
+                <b>QuickTime format</b>. Standards, at their core, are just agreements between the encoder
+                (<i>muxer</i>) and decoder (<i>demuxer</i>). If both sides agree on the format, the video plays.
+
+            <p>MP4 files are made up of <b>atoms</b>—nested data structures that store metadata and media data. Every
+                atom has an 8-byte header:
+            <ul>
+                <li><b>First 4 bytes</b> → Atom size </li>
+                <li> <b>Next 4 bytes</b> → Atom name (a four-character code like <code>moov</code>,
+                    <code>trak</code>, <code>tkhd</code>)
+                </li>
+            </ul>
+            <p>MP4 files have multiple atoms, some containing others. Think of them like folders within folders.
+
+            <p>For our purposes, we’re interested in how the video player knows how to render pixels on screen. That
+                metadata is stored inside <code>moov/trak/tkhd</code>.</p>
+
+
+            <h3>The 36 Bytes That Control Rotation</h3>
+
+            <p>Inside the <b>tkhd</b> (Track Header) atom, there are <b>36 bytes</b> dedicated to storing a
+                <b>transformation matrix</b>. This matrix tells the player how to scale, rotate, and position the video.
+
+            <p>If you’ve ever done high school linear algebra, you’ve seen a <b>3×3 identity matrix</b>:</p>
+
+            $$
+            \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & 1
+            \end{bmatrix}
+            $$
+
+            <p>This is the default—no rotation, no scaling, no movement. Each value in the matrix represents a
+                transformation:</p>
+
+            <ul>
+                <li>The <b>first column</b> controls <b>scaling and horizontal shearing</b>.</li>
+                <li>The <b>second column</b> controls <b>rotation and vertical shearing</b>.</li>
+                <li>The <b>third column</b> is for <b>translation (movement on x/y axes)</b>.</li>
+            </ul>
+            <p>MP4 expands this to a <b>2D affine transformation matrix</b> using <b>16.16 fixed-point numbers</b>:</p>
+
+            $$
+            \begin{bmatrix}
+            a & b & u \\
+            c & d & v \\
+            x & y & w
+            \end{bmatrix}
+            $$
+
+
+            <p>This is stored in <code>tkhd</code> as 36 bytes:</p>
+
+            <ul>
+                <li><b>a, b, c, d</b> → Scale, shear, and rotation (16-bit fixed-point values).</li>
+                <li><b>u, v</b> → Perspective correction (usually <code>0</code>).</li>
+                <li><b>x, y</b> → Translation (positioning).</li>
+                <li><b>w</b> → Always <code class="lang-asm">0x40000000</code> (which represents <code>1.0</code> in
+                    fixed-point).</li>
+            </ul>
+
+            <h3>What is Fixed-Point 16.16?</h3>
+
+            <p>MP4 uses <b>fixed-point 16.16 format</b> to store decimal numbers efficiently. It’s a way of representing
+                real numbers in an integer-based system.</p>
+
+            <ul>
+                <li>The first <b>16 bits</b> (upper half) store the <b>whole number</b>.</li>
+                <li>The last <b>16 bits</b> (lower half) store the <b>fractional part</b>.</li>
+            </ul>
+
+            <p>For example:</p>
+
+            <ul>
+                <li><code>1.0</code> in fixed-point <b>16.16</b> → <code class="lang-asm">0x00010000</code></li>
+                <li><code>0.5</code> → <code class="lang-asm">0x00008000</code></li>
+                <li><code>-1.0</code> → <code class="lang-asm">0xFFFF0000</code></li>
+            </ul>
+
+            <p>
+                This format avoids floating-point precision issues and ensures fast computation on hardware that doesn’t
+                have an FPU (Floating Point Unit).
+            </p>
+
+
+            <h3>Rotating the Video</h3>
+
+            <p>To rotate a video by <b>90°</b>, we modify the matrix. A <b>90-degree counterclockwise rotation</b>
+                swaps and negates values like this:</p>
+
+            <p>
+                $$
+                \begin{bmatrix}
+                0 & -1 & 0 \\
+                1 & 0 & 0 \\
+                0 & 0 & 1
+                \end{bmatrix}
+                $$
+            </p>
+
+
+            <p>Which, in fixed-point 16.16 hexadecimal, looks something like:</p>
+
+<pre>
+            <code class="lang-shell">
+            00000000 FFFF0000 00000000
+            00010000 00000000 00000000
+            00000000 00000000 40000000
+            </code>
+        </pre>
+
+            <p>Editing these bytes directly in a hex editor rotates the video without re-encoding.</p>
+
+            <h3>Rotating to Any Angle (In Theory)</h3>
+
+            <p>So far, we’ve only looked at <b>90°</b>, <b>180°</b>, and <b>270°</b> rotations—angles that neatly fit
+                into the transformation matrix with simple value swaps. But what if you want to rotate a video
+                by<b>45°</b>, <b>30°</b>, or any other arbitrary angle? Mathematically, it’s not a problem. The full 2D
+                rotation formula looks like this:</p>
+            <p>
+                $$
+                \begin{bmatrix}
+                \cos(\theta) & -\sin(\theta) & 0 \\
+                \sin(\theta) & \cos(\theta) & 0 \\
+                0 & 0 & 1
+                \end{bmatrix}
+                $$
+            </p>
+
+            <p><b>45° rotation</b>, the matrix would be:</p>
+
+            $$
+
+            \begin{bmatrix}
+            0.7071 & -0.7071 & 0 \\
+            0.7071 & 0.7071 & 0 \\
+            0 & 0 & 1
+            \end{bmatrix}
+
+            $$
+
+
+            <p>Converted to fixed-point 16.16 hexadecimal:</p>
+
+            <pre>
+                <code class="lang-asm">
+            0000B504 FFFF4AFC 00000000
+            00004AFC 0000B504 00000000
+            00000000 00000000 40000000
+                </code>
+            </pre>
+
+            <p>The problem? <b>Most video players don’t support it.</b></p>
+
+            <h3>Why? Players Got Lazy</h3>
+
+            <p>The MP4 spec supports <b>arbitrary rotations</b>, but most video players only check for these cases:</p>
+
+            <ul>
+                <li><code>0°</code> → Identity matrix</li>
+                <li><code>90°</code> → Swapped and negated values</li>
+                <li><code>180°</code> → Negated diagonal</li>
+                <li><code>270°</code> → Another swap and negate</li>
+            </ul>
+
+            <p>Anything else? They ignore it.</p>
+
+            <p>Why? Because handling arbitrary rotations properly means <b>real-time transformations</b>—which requires
+                GPU acceleration or CPU-intensive pixel remapping. It’s easier for developers to say, <b>“Just support
+                    90-degree increments and call it a day.”</b> Even QuickTime Player ignores non-standard rotation
+                matrices. VLC might try, but results vary.</p>
+
+
+            <h3>Why Hex Editing Works (and When It Doesn't)</h3>
+
+            <p>editing works great <b>if you don’t change the length of anything</b>. But if you add or remove bytes,
+                <b>everything breaks</b>.
+            </p>
+
+            <h3>MP4 sometimes uses Absolute Offsets</h3>
+
+            <p>Each <b>atom</b> in an MP4 file has:</p>
+
+            <ul>
+                <li>A <b>size field</b> (first 4 bytes) </li>
+                <li>References to <b>other atoms</b> (absolute offsets) </li>
+            </ul>
+
+            <p>If you change the size of an atom (e.g., making `tkhd` longer), you need to:</p>
+
+            <ul>
+                <li><b>Update the size field</b> of every parent atom (`trak`, `moov`, etc.).</li>
+                <li><b>Fix offsets in `mdat`</b> (the actual media data).</li>
+            </ul>
+
+
+            <p>Miss one update? The entire file might not play.</p>
+
+            <p></p>This is why we edit <b>only metadata</b> and <b>only within the allocated space</b>—so we don’t have
+            to touch the rest of the file.</p>
+
+
+            <h3>Final Thoughts</h3>
+
+            <p>MP4 is a structured but fragile format. With the right hex edits, you can manipulate metadata
+                <b>without re-encoding</b>. Rotation is just one example—scaling, flipping, and even repositioning
+                videos can all be done by tweaking the transformation matrix.
+            </p>
+
+
+            <p>But while MP4 allows any rotation, <b>players just aren’t keeping up</b>. The standard is capable.
+                The software? Not so much.</p>
+            <div class="cta-box">
+                <h3>Experience Lossless Video Rotation</h3>
+                <p>Try Rotately now and see how our matrix transformation technique preserves your video quality
+                    while
+                    instantly applying rotations.</p>
+                <a href="../index.html" class="cta-button">Rotate Without Quality Loss</a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="buy-me-coffee">
+                <a href="https://www.buymeacoffee.com/rotately.live"><img
+                        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://x.com/rotately">Contact</a>
+            </div>
+            <p class="copyright">© 2025 Rotately. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

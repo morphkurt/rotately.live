@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
+    <!-- End Google Tag Manager -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how Rotately works to rotate your videos quickly and securely, directly in your browser without uploading them anywhere.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <title>How Rotately Works | Browser-Based Video Rotation</title>
+    <style>
+        :root {
+            --primary-color: #ff5b1b;
+            --secondary-color: #ca9950;
+            --background-color: #f9f9f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --text-secondary: #666666;
+            --border-color: #eeeeee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--card-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .blog-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+
+        .blog-content {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+
+        .blog-content h2 {
+            color: var(--primary-color);
+            margin: 0.5rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .blog-content h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.4rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-content ul, .blog-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .blog-content blockquote {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .cta-box {
+            background-color: rgba(255, 91, 27, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .cta-box h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background-color: #fafafa;
+        }
+
+        .info-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .navigation-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .nav-card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--card-color);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .buy-me-coffee {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .blog-title {
+                font-size: 2rem;
+            }
+
+            .blog-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">Rotately</a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://www.buymeacoffee.com/rotately.live">Support Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="blog-header">
+            <h1 class="blog-title">How Rotately Works</h1>
+            <h2 class="blog-subtitle">Browser-Based Video Rotation That Respects Your Privacy</h2>
+        </div>
+
+        <article class="blog-content">
+            <h2>Privacy & Security: Our Core Principles</h2>
+            <p>
+                At Rotately, we believe that privacy isn't just a feature—it's a fundamental right. Our entire platform was built around the principle that you shouldn't have to compromise your privacy to perform simple video edits like rotation.
+            </p>
+            
+            <h3>The Problem with Traditional Online Video Tools</h3>
+            <p>
+                Most online video editing tools require you to upload your videos to their servers for processing. This creates several privacy and security concerns:
+            </p>
+            
+            <ul>
+                <li>Your personal videos are stored on third-party servers</li>
+                <li>You typically have no visibility into how long they're stored</li>
+                <li>Your content might be analyzed for various purposes</li>
+                <li>There's always the risk of data breaches or unauthorized access</li>
+                <li>Terms of service often grant these services certain rights to your content</li>
+            </ul>
+            
+            <div class="info-card">
+                <h4>The Rotately Difference</h4>
+                <p>
+                    <strong>Your videos never leave your device.</strong> All processing happens directly in your browser, using your computer's resources rather than our servers.
+                </p>
+            </div>
+            
+            <h3>How We Protect Your Privacy</h3>
+            <p>
+                Rotately's privacy-first approach includes several key elements:
+            </p>
+            
+            <ol>
+                <li><strong>Zero Upload Policy</strong> - Your videos are never uploaded to our servers</li>
+                <li><strong>Local Processing</strong> - All video manipulation happens in your browser</li>
+                <li><strong>No Account Required</strong> - Use our tool without creating an account or sharing personal information</li>
+                <li><strong>Minimal Analytics</strong> - We only collect anonymous usage statistics to improve our service</li>
+                <li><strong>No Third-Party Access</strong> - We don't share your data with third parties</li>
+            </ol>
+            
+            <h3>Technical Implementation of Our Privacy Measures</h3>
+            <p>
+                Our commitment to privacy is reflected in our technical implementation:
+            </p>
+            
+            <ul>
+                <li><strong>Client-Side JavaScript</strong> - All processing code runs on your device</li>
+                <li><strong>FileReader API</strong> - Allows us to read your video files without uploading them</li>
+                <li><strong>Direct Download</strong> - Processed videos are offered for immediate download from your browser</li>
+                <li><strong>No Cookies Required</strong> - Essential functionality works without tracking cookies</li>
+                <li><strong>HTTPS Encryption</strong> - All communication with our website is encrypted</li>
+            </ul>
+            
+            <h3>What We Do and Don't Collect</h3>
+            <p>
+                Transparency is essential to privacy. Here's what we do and don't collect:
+            </p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; border: 1px solid var(--border-color);">
+                <thead>
+                    <tr style="background-color: var(--background-color);">
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color);">We Do Collect</th>
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color);">We Don't Collect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">
+                            <ul style="margin: 0; padding-left: 1.5rem;">
+                                <li>Anonymous usage statistics (like how many videos are rotated)</li>
+                                <li>General video attributes (like file size and duration)</li>
+                                <li>Browser and device information for compatibility</li>
+                                <li>Website performance metrics</li>
+                            </ul>
+                        </td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">
+                            <ul style="margin: 0; padding-left: 1.5rem;">
+                                <li>Your actual video content</li>
+                                <li>Video filenames</li>
+                                <li>Personal information</li>
+                                <li>Location data beyond country level</li>
+                                <li>Browsing history on other sites</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Our Privacy Commitment for the Future</h3>
+            <p>
+                As we continue to develop and improve Rotately, our commitment to privacy remains unwavering:
+            </p>
+            
+            <ul>
+                <li>We will never pivot to a server-based model that compromises privacy</li>
+                <li>Any new features will be designed with privacy as a primary consideration</li>
+                <li>We will always be transparent about our data practices</li>
+                <li>We will continue to explore ways to enhance privacy and security</li>
+            </ul>
+            
+            <div class="cta-box">
+                <h3>Try Rotately's Privacy-First Approach</h3>
+                <p>Experience video rotation without privacy compromises. Your videos stay on your device where they belong.</p>
+                <a href="index.html"></a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="buy-me-coffee">
+                <a href="https://www.buymeacoffee.com/rotately.live"><img
+                        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://x.com/rotately">Contact</a>
+            </div>
+            <p class="copyright">© 2025 Rotately. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

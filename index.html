@@ -221,6 +221,51 @@
                 padding: 1.5rem;
             }
         }
+
+        .how-it-works-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .info-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .learn-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .learn-more:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .how-it-works-cards {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -271,6 +316,23 @@
             </div>
 
             <button id="downloadBtn" disabled>Download Rotated Video</button>
+        </div>
+
+        <div class="how-it-works-cards">
+        
+            <div class="info-card">
+                <h3>MP4 Transformation</h3>
+                <p>Instead of re-encoding your entire video (which would take time and reduce quality), we simply update
+                    the rotation matrix in the MP4 file structure.</p>
+                <a href="blog/how-it-works.html" class="learn-more">Learn about MP4 rotation techniques →</a>
+            </div>
+
+            <div class="info-card">
+                <h3>Privacy & Security</h3>
+                <p>Since all processing happens locally, your videos remain completely private. No server storage, no
+                    data collection.</p>
+                <a href="blog/privacy.html" class="learn-more">Read about our privacy approach →</a>
+            </div>
         </div>
 
         <!-- Buy Me a Coffee Button -->
