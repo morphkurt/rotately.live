@@ -404,8 +404,21 @@
 
                     // Optionally, revoke the object URL after download to free memory
                     URL.revokeObjectURL(url);
+                    // Push event to GTM dataLayer
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        event: "video_rotate_success",
+                        video_angle: rotationAngle.value,
+                        video_name: fileName.textContent
+                    });
                 } else {
                     document.getElementById('errorMessage').classList.remove('hidden');
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        event: "video_rotate_failure",
+                        video_angle: rotationAngle.value,
+                        video_name: fileName.textContent
+                    });
                 }
             });
         });
