@@ -293,6 +293,7 @@
             const downloadBtn = document.getElementById('downloadBtn');
             let currentMatrix = null;
             let fileBuffer;
+            let fileSize;
 
             let originalVideo = null;
 
@@ -344,6 +345,18 @@
                 const videoURL = URL.createObjectURL(file);
                 video.src = videoURL;
                 fileName.textContent = file.name;
+
+                video.onloadedmetadata = function () {
+                    const videoDuration = Math.round(video.duration); // Duration in seconds
+                    // Push event to GTM dataLayer
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        event: "video_upload",
+                        video_name: file.name,
+                        video_size: file.size, // In bytes
+                        video_duration: videoDuration // In seconds
+                    });
+                };
 
                 videoPreview.classList.remove('hidden');
 
