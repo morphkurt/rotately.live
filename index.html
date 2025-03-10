@@ -2,15 +2,16 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-74PEEERKRB"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-74PEEERKRB');
-    </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
+    <!-- End Google Tag Manager -->
     <meta name="description"
         content="Video Rotation Tool - Rotate your videos quickly and for free, offline, without the need for special tools or technical knowledge. Our simple tool allows you to easily rotate videos in just a few clicks. Fast, efficient, and perfect for everyone!">
     <link rel=" icon" href="favicon.ico" type="image/x-icon" />
@@ -225,6 +226,10 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div class="container">
         <h1>Rotately Live</h1>
         <p class="info-message">All video rotation happens directly in your browser. Your video stays private—nothing is
@@ -287,6 +292,7 @@
             const downloadBtn = document.getElementById('downloadBtn');
             let currentMatrix = null;
             let fileBuffer;
+
             let originalVideo = null;
 
             // Handle file upload via click
@@ -391,5 +397,4 @@
         });
     </script>
 </body>
-
 </html>
