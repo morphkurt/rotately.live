@@ -26,13 +26,6 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
 
-    <!-- Prism.js for Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
-
-
     <title>How Rotately Works | Browser-Based Video Rotation</title>
     <style>
         :root {
@@ -289,27 +282,20 @@
             text-align: center;
         }
 
-        /* Code block styling */
-        code {
-            font-family: "Courier New", monospace;
-            font-size: 14px;
-            background: #f5f5f5;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
 
-        pre {
-            background: #b8b8b7;
-            /* Dark background */
-            color: #f8f8f2;
-            /* Light text */
-            padding: 12px;
-            border-radius: 6px;
-            overflow-x: auto;
-            font-family: "Courier New", monospace;
-            font-size: 14px;
-        }
+        code, pre {
+    font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    background: #282a36;
+    color: #f8f8f2;
+    padding: 5px;
+    border-radius: 4px;
+    overflow-x: auto; /* Only horizontal scrolling */
+    max-width: 100%; /* Keep within the container */
+}
 
+
+        /* Functions */
 
         @media (max-width: 600px) {
             .header-content {
@@ -486,13 +472,11 @@
 
 
             <p>Which, in fixed-point 16.16 hexadecimal, looks something like:</p>
-
-<pre>
-            <code class="lang-shell">
+            <pre>
+            <code>
             00000000 FFFF0000 00000000
             00010000 00000000 00000000
-            00000000 00000000 40000000
-            </code>
+            00000000 00000000 40000000</code>
         </pre>
 
             <p>Editing these bytes directly in a hex editor rotates the video without re-encoding.</p>
@@ -501,7 +485,7 @@
 
             <p>So far, we’ve only looked at <b>90°</b>, <b>180°</b>, and <b>270°</b> rotations—angles that neatly fit
                 into the transformation matrix with simple value swaps. But what if you want to rotate a video
-                by<b>45°</b>, <b>30°</b>, or any other arbitrary angle? Mathematically, it’s not a problem. The full 2D
+                by <b>45°</b>, <b>30°</b>, or any other arbitrary angle? Mathematically, it’s not a problem. The full 2D
                 rotation formula looks like this:</p>
             <p>
                 $$
@@ -529,11 +513,10 @@
             <p>Converted to fixed-point 16.16 hexadecimal:</p>
 
             <pre>
-                <code class="lang-asm">
+                <code>
             0000B504 FFFF4AFC 00000000
             00004AFC 0000B504 00000000
-            00000000 00000000 40000000
-                </code>
+            00000000 00000000 40000000</code>
             </pre>
 
             <p>The problem? <b>Most video players don’t support it.</b></p>
@@ -572,11 +555,11 @@
                 <li>References to <b>other atoms</b> (absolute offsets) </li>
             </ul>
 
-            <p>If you change the size of an atom (e.g., making `tkhd` longer), you need to:</p>
+            <p>If you change the size of an atom (e.g., making <code>tkhd</code> longer), you need to:</p>
 
             <ul>
-                <li><b>Update the size field</b> of every parent atom (`trak`, `moov`, etc.).</li>
-                <li><b>Fix offsets in `mdat`</b> (the actual media data).</li>
+                <li>Update the size field of every parent atom (<code>trak</code>, <code>moov</code>, etc.).</li>
+                <li>Fix offsets in <code>mdat</code> (the actual media data).</li>
             </ul>
 
 
