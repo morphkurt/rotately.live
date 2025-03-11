@@ -283,16 +283,36 @@
         }
 
 
-        code, pre {
-    font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
-    font-size: 14px;
-    background: #282a36;
-    color: #f8f8f2;
-    padding: 5px;
-    border-radius: 4px;
-    overflow-x: auto; /* Only horizontal scrolling */
-    max-width: 100%; /* Keep within the container */
-}
+        code,
+        pre {
+            font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            background: #282a36;
+            color: #f8f8f2;
+            padding: 5px;
+            border-radius: 4px;
+            overflow-x: auto;
+            /* Only horizontal scrolling */
+            max-width: 100%;
+            /* Keep within the container */
+        }
+
+         /* Video container styles */
+         .video-container {
+            display: flex;
+            justify-content: center;
+            width: 100%; /* Ensure the container spans the full width */
+            padding: 1rem;
+        }
+
+        video {
+            width: 50%; /* Set the video width to 100px */
+            border-radius: 10px;
+            height: auto; /* Maintain aspect ratio */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+
+        }
+
 
 
         /* Functions */
@@ -356,8 +376,7 @@
 
         <article class="blog-content">
             <h2>How Rotation works in MP4 File</h2>
-            <p>One thing we don’t do is transfer your video to our servers for processing. In fact, we don’t operate any
-                servers other than the one hosting this webpage.</p>
+
             <p>This all started as a fun challenge. We wanted to see if we could edit videos using nothing but a hex
                 editor. No DaVinci, no Final Cut Pro, no FFmpeg—just raw hex editing. You might ask, <b>why?</b> Maybe
                 it’s monomania, but the reason doesn’t matter.</p>
@@ -481,6 +500,15 @@
 
             <p>Editing these bytes directly in a hex editor rotates the video without re-encoding.</p>
 
+            <p>Let's trying play that</p>
+
+            <div class="video-container">
+                <video muted controls>
+                    <source src="./90ccw_90.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
             <h3>Rotating to Any Angle (In Theory)</h3>
 
             <p>So far, we’ve only looked at <b>90°</b>, <b>180°</b>, and <b>270°</b> rotations—angles that neatly fit
@@ -520,6 +548,24 @@
             </pre>
 
             <p>The problem? <b>Most video players don’t support it.</b></p>
+
+            <p>Let's play and see hey!</p>
+
+            <div class="video-container">
+                <video muted controls>
+                    <source src="./45.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <p>But no luck, your browser most likely won't show the current rotation. But if you try <code>ffplay</code>, you will get something like this</p>
+
+            <div class="video-container">
+                <video muted controls>
+                    <source src="./ffplay.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
 
             <h3>Why? Players Got Lazy</h3>
 
