@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
+    <meta name="description"
+        content="TapTempo Tap BPM & Click Track - A simple tool to measure beats per minute by tapping and generate a click track. Perfect for musicians, producers, and anyone who needs to find or maintain a tempo.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TapTempo</title>
+    <style>
+        :root {
+            --primary-color: #ff5b1b;
+            --secondary-color: #ca9950;
+            --background-color: #f9f9f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .info-message {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .instructions {
+            color: #666;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        #tap-area {
+            width: 100%;
+            height: 250px;
+            background: #f0f0f0;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        #tap-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        #bpm-display {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .select-container {
+            position: relative;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .select-container::after {
+            content: '▼';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .how-it-works-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .info-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .learn-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .learn-more:hover {
+            text-decoration: underline;
+        }
+
+        .buy-me-coffee {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .how-it-works-cards {
+                grid-template-columns: 1fr;
+            }
+
+            #tap-area {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="container">
+        <h1>Rotately TapTempo</h1>
+        <p class="instructions">Tap the area below in rhythm to calculate BPM and generate a click track</p>
+
+        <div id="tap-area">TAP HERE</div>
+        
+        <p id="bpm-display">BPM: --</p>
+
+        <div class="controls">
+            <button id="stop-click">Stop Click Track</button>
+            
+            <div class="select-container">
+                <select id="sound-type">
+                    <option value="beep">Beep Sound</option>
+                    <option value="click">Click Sound</option>
+                    <option value="woodblock">Woodblock Sound</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="how-it-works-cards">
+            <div class="info-card">
+                <h3>Rotate your videos</h3>
+                <p>This tool measures the time between taps to calculate an accurate BPM. The more taps you provide, the more precise the measurement will be.</p>
+                <a href="index.html" class="learn-more">Checkout out video rotate tool→</a>
+            </div>
+            <div class="info-card">
+                <h3>Privacy & Security</h3>
+                <p>Since all processing happens locally, your videos remain completely private. No server storage, no
+                    data collection.</p>
+                <a href="blog/privacy.html" class="learn-more">Read about our privacy approach →</a>
+            </div>
+            <div class="info-card">
+                <h3>MP4 Transformation</h3>
+                <p>Instead of re-encoding your entire video (which would take time and reduce quality), we simply update
+                    the rotation matrix in the MP4 file structure.</p>
+                <a href="blog/how-it-works.html" class="learn-more">Learn about MP4 rotation techniques →</a>
+            </div>
+        </div>
+
+        <!-- Buy Me a Coffee Button -->
+        <div class="buy-me-coffee">
+            <a href="https://www.buymeacoffee.com/rotately.live"><img
+                    src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let tapTimes = [];
+            let bpm = 0;
+            let intervalMs = 0;
+            let nextClickTime = 0;
+            let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            let isPlaying = false;
+            let lastTapTime = 0;
+            let soundType = 'beep';
+
+            const tapArea = document.getElementById('tap-area');
+            const bpmDisplay = document.getElementById('bpm-display');
+            const stopClickBtn = document.getElementById('stop-click');
+            const soundTypeSelect = document.getElementById('sound-type');
+
+            // Handle tap area click
+            tapArea.addEventListener('click', handleTap);
+            
+            // Also allow spacebar to trigger tap
+            document.addEventListener('keydown', function(event) {
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    handleTap();
+                    
+                    // Visual feedback
+                    tapArea.style.backgroundColor = 'rgba(255, 91, 27, 0.1)';
+                    setTimeout(() => {
+                        tapArea.style.backgroundColor = '';
+                    }, 100);
+                }
+            });
+
+            function handleTap() {
+                let now = Date.now();
+                
+                // Reset if it's been more than 2 seconds since last tap
+                if (lastTapTime > 0 && now - lastTapTime > 2000) {
+                    tapTimes = [];
+                }
+                
+                tapTimes.push(now);
+
+                // Keep only last 5 taps for accuracy
+                if (tapTimes.length > 5) tapTimes.shift();
+
+                if (tapTimes.length > 1) {
+                    let intervals = [];
+                    for (let i = 1; i < tapTimes.length; i++) {
+                        intervals.push(tapTimes[i] - tapTimes[i-1]);
+                    }
+                    
+                    intervalMs = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+                    bpm = Math.round(60000 / intervalMs);
+                    
+                    // Limit BPM to a reasonable range
+                    if (bpm >= 40 && bpm <= 240) {
+                        bpmDisplay.textContent = `BPM: ${bpm}`;
+                        startClickTrack();
+                    }
+                }
+
+                lastTapTime = now;
+                
+                // Provide visual feedback
+                tapArea.style.backgroundColor = 'rgba(255, 91, 27, 0.1)';
+                setTimeout(() => {
+                    tapArea.style.backgroundColor = '';
+                }, 100);
+            }
+
+            function startClickTrack() {
+                if (bpm <= 0) return;
+                
+                // Only restart if not playing or if the BPM changed significantly
+                if (!isPlaying) {
+                    isPlaying = true;
+                    nextClickTime = audioContext.currentTime + 0.1; // Start soon
+                    scheduleClick();
+                }
+            }
+
+            function scheduleClick() {
+                if (!isPlaying) return;
+
+                playClick(nextClickTime);
+
+                // Schedule next click
+                nextClickTime += 60 / bpm;
+                
+                // Use setTimeout with drift correction
+                let timeUntilNextClick = (nextClickTime - audioContext.currentTime) * 1000;
+                setTimeout(scheduleClick, Math.max(10, timeUntilNextClick - 25));
+            }
+
+            function playClick(time) {
+                let osc = audioContext.createOscillator();
+                let gainNode = audioContext.createGain();
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                // Different sound types
+                switch (soundType) {
+                    case 'click':
+                        osc.type = 'square';
+                        osc.frequency.value = 1500;
+                        gainNode.gain.setValueAtTime(0.3, time);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
+                        osc.start(time);
+                        osc.stop(time + 0.05);
+                        break;
+                        
+                    case 'woodblock':
+                        osc.type = 'sine';
+                        osc.frequency.value = 800;
+                        let osc2 = audioContext.createOscillator();
+                        osc2.type = 'sine';
+                        osc2.frequency.value = 1200;
+                        osc2.connect(gainNode);
+                        
+                        gainNode.gain.setValueAtTime(0.7, time);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+                        
+                        osc.start(time);
+                        osc2.start(time);
+                        osc.stop(time + 0.1);
+                        osc2.stop(time + 0.1);
+                        break;
+                        
+                    default: // beep
+                        osc.type = 'sine';
+                        osc.frequency.value = 1000;
+                        gainNode.gain.setValueAtTime(0.5, time);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+                        osc.start(time);
+                        osc.stop(time + 0.1);
+                }
+            }
+
+            function stopClickTrack() {
+                isPlaying = false;
+            }
+
+            stopClickBtn.addEventListener('click', stopClickTrack);
+            
+            soundTypeSelect.addEventListener('change', function() {
+                soundType = this.value;
+            });
+        });
+    </script>
+</body>
+
+</html>
