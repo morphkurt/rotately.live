@@ -206,6 +206,58 @@
             text-align: center;
         }
 
+        .time-signature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .time-signature select {
+            flex: 1;
+        }
+
+        .time-signature-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .manual-bpm-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .manual-bpm-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        .manual-bpm-input button {
+            padding: 0.75rem 1.5rem;
+            white-space: nowrap;
+        }
+
+        .accent-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
+        }
+
+        .accent-toggle input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .accent-toggle label {
+            font-size: 1rem;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 1.5rem;
@@ -232,12 +284,12 @@
         <p class="instructions">Tap the area below in rhythm to calculate BPM and generate a click track</p>
 
         <div id="tap-area">TAP HERE</div>
-        
+
         <p id="bpm-display">BPM: --</p>
 
         <div class="controls">
             <button id="stop-click">Stop Click Track</button>
-            
+
             <div class="select-container">
                 <select id="sound-type">
                     <option value="beep">Beep Sound</option>
@@ -245,12 +297,52 @@
                     <option value="woodblock">Woodblock Sound</option>
                 </select>
             </div>
+
+            <div class="time-signature-container">
+                <p class="time-signature-label">Time Signature</p>
+                <div class="time-signature">
+                    <select id="beats-per-measure">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="9">9</option>
+                        <option value="12">12</option>
+                    </select>
+                    <span>/</span>
+                    <select id="beat-value">
+                        <option value="2">2</option>
+                        <option value="4" selected>4</option>
+                        <option value="8">8</option>
+                        <option value="16">16</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Manual BPM Input -->
+            <div class="manual-bpm-container">
+                <p class="time-signature-label">Manual BPM</p>
+                <div class="manual-bpm-input">
+                    <input type="number" id="manual-bpm" min="40" max="240" step="1" placeholder="Enter BPM">
+                    <button id="set-bpm">Set</button>
+                </div>
+            </div>
+
+            <!-- Accent Toggle -->
+            <div class="accent-toggle-container">
+                <div class="accent-toggle">
+                    <input type="checkbox" id="accent-toggle" checked>
+                    <label for="accent-toggle">Enable First-Beat Accent</label>
+                </div>
+            </div>
         </div>
 
         <div class="how-it-works-cards">
             <div class="info-card">
                 <h3>Rotate your videos</h3>
-                <p>This tool measures the time between taps to calculate an accurate BPM. The more taps you provide, the more precise the measurement will be.</p>
+                <p>This tool measures the time between taps to calculate an accurate BPM. The more taps you provide, the
+                    more precise the measurement will be.</p>
                 <a href="index.html" class="learn-more">Checkout out video rotate tool→</a>
             </div>
             <div class="info-card">
@@ -283,21 +375,55 @@
             let isPlaying = false;
             let lastTapTime = 0;
             let soundType = 'beep';
+            // Time signature variables
+            let currentBeat = 0;
+            let beatsPerMeasure = 4;
+            let beatValue = 4;
+            let accentEnabled = true;
+
+            // Add these lines in the DOMContentLoaded event handler
+            const beatsPerMeasureSelect = document.getElementById('beats-per-measure');
+            const beatValueSelect = document.getElementById('beat-value');
+
+            // Add event listeners for time signature changes
+            beatsPerMeasureSelect.addEventListener('change', function () {
+                beatsPerMeasure = parseInt(this.value);
+                currentBeat = 0; // Reset beat counter when time signature changes
+            });
+
+            beatValueSelect.addEventListener('change', function () {
+                beatValue = parseInt(this.value);
+                // Recalculate click timing when beat value changes
+                if (isPlaying) {
+                    stopClickTrack();
+                    startClickTrack();
+                }
+            });
+
 
             const tapArea = document.getElementById('tap-area');
             const bpmDisplay = document.getElementById('bpm-display');
             const stopClickBtn = document.getElementById('stop-click');
             const soundTypeSelect = document.getElementById('sound-type');
+            const manualBpmInput = document.getElementById('manual-bpm');
+            const setBpmBtn = document.getElementById('set-bpm');
+            const accentToggle = document.getElementById('accent-toggle');
+
+            // Add event listeners for new controls
+            beatsPerMeasureSelect.addEventListener('change', function () {
+                beatsPerMeasure = parseInt(this.value);
+                currentBeat = 0; // Reset beat counter when time signature changes
+            });
 
             // Handle tap area click
             tapArea.addEventListener('click', handleTap);
-            
+
             // Also allow spacebar to trigger tap
-            document.addEventListener('keydown', function(event) {
+            document.addEventListener('keydown', function (event) {
                 if (event.code === 'Space') {
                     event.preventDefault();
                     handleTap();
-                    
+
                     // Visual feedback
                     tapArea.style.backgroundColor = 'rgba(255, 91, 27, 0.1)';
                     setTimeout(() => {
@@ -306,14 +432,35 @@
                 }
             });
 
+            // Manual BPM setting
+            setBpmBtn.addEventListener('click', function () {
+                const manualBpm = parseInt(manualBpmInput.value);
+                if (manualBpm >= 40 && manualBpm <= 240) {
+                    bpm = manualBpm;
+                    bpmDisplay.textContent = `BPM: ${bpm}`;
+
+                    // Restart click track with new BPM
+                    if (isPlaying) {
+                        stopClickTrack();
+                    }
+                    startClickTrack();
+                }
+            });
+
+            // Accent toggle
+            accentToggle.addEventListener('change', function () {
+                accentEnabled = this.checked;
+            });
+
+
             function handleTap() {
                 let now = Date.now();
-                
+
                 // Reset if it's been more than 2 seconds since last tap
                 if (lastTapTime > 0 && now - lastTapTime > 2000) {
                     tapTimes = [];
                 }
-                
+
                 tapTimes.push(now);
 
                 // Keep only last 5 taps for accuracy
@@ -322,12 +469,12 @@
                 if (tapTimes.length > 1) {
                     let intervals = [];
                     for (let i = 1; i < tapTimes.length; i++) {
-                        intervals.push(tapTimes[i] - tapTimes[i-1]);
+                        intervals.push(tapTimes[i] - tapTimes[i - 1]);
                     }
-                    
+
                     intervalMs = intervals.reduce((a, b) => a + b, 0) / intervals.length;
                     bpm = Math.round(60000 / intervalMs);
-                    
+
                     // Limit BPM to a reasonable range
                     if (bpm >= 40 && bpm <= 240) {
                         bpmDisplay.textContent = `BPM: ${bpm}`;
@@ -336,7 +483,7 @@
                 }
 
                 lastTapTime = now;
-                
+
                 // Provide visual feedback
                 tapArea.style.backgroundColor = 'rgba(255, 91, 27, 0.1)';
                 setTimeout(() => {
@@ -344,34 +491,48 @@
                 }, 100);
             }
 
+            // Modify the startClickTrack function to reset the beat counter
             function startClickTrack() {
                 if (bpm <= 0) return;
-                
+
                 // Only restart if not playing or if the BPM changed significantly
                 if (!isPlaying) {
                     isPlaying = true;
+                    currentBeat = 0; // Reset beat counter when starting
                     nextClickTime = audioContext.currentTime + 0.1; // Start soon
                     scheduleClick();
                 }
             }
 
+            // Modify the scheduleClick function to handle time signatures and beat values
             function scheduleClick() {
                 if (!isPlaying) return;
 
-                playClick(nextClickTime);
+                // First beat of measure gets accent
+                // First beat of measure gets accent if enabled
+                let isAccent = accentEnabled && currentBeat === 0;
+                playClick(nextClickTime, isAccent);
+
+                // Update beat counter
+                currentBeat = (currentBeat + 1) % beatsPerMeasure;
+
+                // Calculate interval based on beat value
+                // Standard is 4 (quarter note), so we adjust relative to that
+                let beatFactor = 4 / beatValue;
+                let intervalSeconds = (60 / bpm) * beatFactor;
 
                 // Schedule next click
-                nextClickTime += 60 / bpm;
-                
+                nextClickTime += intervalSeconds;
+
                 // Use setTimeout with drift correction
                 let timeUntilNextClick = (nextClickTime - audioContext.currentTime) * 1000;
                 setTimeout(scheduleClick, Math.max(10, timeUntilNextClick - 25));
             }
 
-            function playClick(time) {
+            function playClick(time, isAccent) {
                 let osc = audioContext.createOscillator();
                 let gainNode = audioContext.createGain();
-                
+
                 osc.connect(gainNode);
                 gainNode.connect(audioContext.destination);
 
@@ -379,34 +540,34 @@
                 switch (soundType) {
                     case 'click':
                         osc.type = 'square';
-                        osc.frequency.value = 1500;
-                        gainNode.gain.setValueAtTime(0.3, time);
+                        osc.frequency.value = isAccent ? 1800 : 1500;
+                        gainNode.gain.setValueAtTime(isAccent ? 0.4 : 0.3, time);
                         gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
                         osc.start(time);
                         osc.stop(time + 0.05);
                         break;
-                        
+
                     case 'woodblock':
                         osc.type = 'sine';
-                        osc.frequency.value = 800;
+                        osc.frequency.value = isAccent ? 1000 : 800;
                         let osc2 = audioContext.createOscillator();
                         osc2.type = 'sine';
-                        osc2.frequency.value = 1200;
+                        osc2.frequency.value = isAccent ? 1500 : 1200;
                         osc2.connect(gainNode);
-                        
-                        gainNode.gain.setValueAtTime(0.7, time);
+
+                        gainNode.gain.setValueAtTime(isAccent ? 0.8 : 0.7, time);
                         gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
-                        
+
                         osc.start(time);
                         osc2.start(time);
                         osc.stop(time + 0.1);
                         osc2.stop(time + 0.1);
                         break;
-                        
+
                     default: // beep
                         osc.type = 'sine';
-                        osc.frequency.value = 1000;
-                        gainNode.gain.setValueAtTime(0.5, time);
+                        osc.frequency.value = isAccent ? 1200 : 1000;
+                        gainNode.gain.setValueAtTime(isAccent ? 0.6 : 0.5, time);
                         gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
                         osc.start(time);
                         osc.stop(time + 0.1);
@@ -418,8 +579,8 @@
             }
 
             stopClickBtn.addEventListener('click', stopClickTrack);
-            
-            soundTypeSelect.addEventListener('change', function() {
+
+            soundTypeSelect.addEventListener('change', function () {
                 soundType = this.value;
             });
         });
