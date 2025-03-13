@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
@@ -12,261 +11,13 @@
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
     <meta name="description"
-        content="Video Rotation Tool - Rotate your videos quickly and for free, offline, without the need for special tools or technical knowledge. Our simple tool allows you to easily rotate videos in just a few clicks. Fast, efficient, and perfect for everyone!">
-    <link rel=" icon" href="favicon.ico" type="image/x-icon" />
+        content="Video Rotation Tool - Rotate and trim your videos quickly and for free, offline, without the need for special tools or technical knowledge. Our simple tool allows you to easily rotate videos in just a few clicks. Fast, efficient, and perfect for everyone!">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rotately</title>
-    <style>
-        :root {
-            --primary-color: #ff5b1b;
-            --secondary-color: #ca9950;
-            --background-color: #f9f9f9;
-            --card-color: #ffffff;
-            --text-color: #333333;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: var(--card-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .upload-area {
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .upload-area:hover {
-            border-color: var(--primary-color);
-            background-color: rgba(52, 152, 219, 0.05);
-        }
-
-        .upload-area p {
-            margin-top: 1rem;
-            color: #666;
-        }
-
-        .upload-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-        }
-
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .select-container {
-            position: relative;
-        }
-
-        select {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background-color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-        }
-
-        .select-container::after {
-            content: '▼';
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        button {
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .info-message {
-            font-style: italic;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #777;
-            font-size: 0.9rem;
-        }
-
-        button:hover {
-            background-color: var(--secondary-color);
-        }
-
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .video-preview {
-            margin-top: 2rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        video {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .error-message {
-            background-color: #ffebee;
-            color: #d32f2f;
-            padding: 0.75rem;
-            border-radius: 6px;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #d32f2f;
-        }
-
-
-        .hidden {
-            display: none;
-        }
-
-        .file-name {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .instructions {
-            color: #666;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .buy-me-coffee {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .buy-me-coffee button {
-            padding: 0.75rem 1.5rem;
-            background-color: #f3db06;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            font-size: 0.5rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .buy-me-coffee button:hover {
-            background-color: #ff3b39;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            .upload-area {
-                padding: 1.5rem;
-            }
-        }
-
-        .how-it-works-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .info-card {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .info-card h3 {
-            margin-bottom: 0.75rem;
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .learn-more {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .learn-more:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .how-it-works-cards {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -276,9 +27,9 @@
     <!-- End Google Tag Manager (noscript) -->
     <div class="container">
         <h1>Rotately Live</h1>
-        <p class="info-message">All video rotation happens directly in your browser. Your video stays private—nothing is
-            sent to our servers. It’s fast, secure, and completely safe!</p>
-        <p class="instructions">Upload a video, select rotation angle, and download the rotated video</p>
+        <p class="info-message">All video rotation and trimming happens directly in your browser. Your video stays private—nothing is
+            sent to our servers. It's fast, secure, and completely safe!</p>
+        <p class="instructions">Upload a video, select the trim or/and rotation angle, and download the rotated video</p>
 
         <div class="upload-area" id="uploadArea">
             <div class="upload-icon">
@@ -293,16 +44,36 @@
             <input type="file" id="videoInput" accept="video/*" style="display: none;">
         </div>
 
-
-        <!-- New error message container -->
+        <!-- Error message container -->
         <div class="error-message hidden" id="errorMessage">
             This video format is not supported. Please try a different video file (.mp4 format recommended).
         </div>
 
-
         <div class="video-preview hidden" id="videoPreview">
             <video id="video" controls></video>
             <p class="file-name" id="fileName"></p>
+        </div>
+
+        <div class="trimming-controls hidden" id="trimmingControls">
+            <h3>Trim Video</h3>
+            <div class="trim-slider-container">
+                <div class="trim-slider" id="trimSlider">
+                    <div class="trim-handle start" id="trimHandleStart"></div>
+                    <div class="trim-progress" id="trimProgress"></div>
+                    <div class="trim-handle end" id="trimHandleEnd"></div>
+                </div>
+                <div class="trim-timestamps">
+                    <div class="trim-time">
+                        <label for="startTime">Start:</label>
+                        <input type="text" id="startTime" class="time-input" value="00:00:00.000">
+                    </div>
+                    <div class="trim-time">
+                        <label for="endTime">End:</label>
+                        <input type="text" id="endTime" class="time-input" value="00:00:00.000">
+                    </div>
+                </div>
+                <button id="previewTrimBtn" class="secondary-button">Preview Trim</button>
+            </div>
         </div>
 
         <div class="controls">
@@ -319,7 +90,6 @@
         </div>
 
         <div class="how-it-works-cards">
-        
             <div class="info-card">
                 <h3>MP4 Transformation</h3>
                 <p>Instead of re-encoding your entire video (which would take time and reduce quality), we simply update
@@ -347,148 +117,8 @@
                     src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
         </div>
     </div>
-    <script type="module">
-        import { findVideoTkhdOffset, calculateMatrixOffset, modifyTkhdMatrix, getMatrix } from './dist/mp4_tkhd.js';
-        document.addEventListener('DOMContentLoaded', function () {
-            const uploadArea = document.getElementById('uploadArea');
-            const videoInput = document.getElementById('videoInput');
-            const videoPreview = document.getElementById('videoPreview');
-            const video = document.getElementById('video');
-            const fileName = document.getElementById('fileName');
-            const rotationAngle = document.getElementById('rotationAngle');
-            const downloadBtn = document.getElementById('downloadBtn');
-            let currentMatrix = null;
-            let fileBuffer;
-            let fileSize;
-
-            let originalVideo = null;
-
-            // Handle file upload via click
-            uploadArea.addEventListener('click', () => {
-                videoInput.click();
-            });
-
-            // Handle drag and drop
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#3498db';
-                uploadArea.style.backgroundColor = 'rgba(52, 152, 219, 0.05)';
-            });
-
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.style.borderColor = '#ddd';
-                uploadArea.style.backgroundColor = 'transparent';
-            });
-
-            uploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#ddd';
-                uploadArea.style.backgroundColor = 'transparent';
-
-                const files = e.dataTransfer.files;
-                if (files.length > 0 && files[0].type.startsWith('video/')) {
-                    handleFileUpload(files[0]);
-                }
-            });
-
-            // Handle file input change
-            videoInput.addEventListener('change', () => {
-                if (videoInput.files.length > 0) {
-                    handleFileUpload(videoInput.files[0]);
-                }
-            });
-
-            function handleFileUpload(file) {
-                document.getElementById('errorMessage').classList.add('hidden');
-                originalVideo = file;
-
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    fileBuffer = new Uint8Array(e.target.result);
-                };
-                reader.readAsArrayBuffer(file);
-
-                const videoURL = URL.createObjectURL(file);
-                video.src = videoURL;
-                fileName.textContent = file.name;
-
-                video.onloadedmetadata = function () {
-                    const videoDuration = Math.round(video.duration); // Duration in seconds
-                    // Push event to GTM dataLayer
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        event: "video_upload",
-                        video_name: file.name,
-                        video_size: file.size, // In bytes
-                        video_duration: videoDuration // In seconds
-                    });
-                };
-
-                videoPreview.classList.remove('hidden');
-
-                // Enable download button when both video and rotation angle are selected
-                currentMatrix = null;
-                checkDownloadButtonState();
-            }
-
-            // Handle rotation angle change
-            rotationAngle.addEventListener('change', checkDownloadButtonState);
-
-            function checkDownloadButtonState() {
-                if (originalVideo && rotationAngle.value) {
-                    downloadBtn.disabled = false;
-                } else {
-                    downloadBtn.disabled = true;
-                }
-            }
-
-            // Handle video download button click
-            // (Placeholder - no actual rotation implementation)
-            downloadBtn.addEventListener('click', () => {
-                console.log('Download button clicked');
-                console.log('Video:', originalVideo.name);
-                console.log('Selected rotation angle:', rotationAngle.value);
-                // Now you can call your functions using the fileBuffer
-                const tkhdOffsetAndSize = findVideoTkhdOffset(fileBuffer);
-                if (tkhdOffsetAndSize) {
-                    const matrixOffset = calculateMatrixOffset(fileBuffer, tkhdOffsetAndSize[0]);
-                    if (currentMatrix == null) {
-                        currentMatrix = getMatrix(fileBuffer, matrixOffset);
-                    }
-                    modifyTkhdMatrix(fileBuffer, matrixOffset, currentMatrix, rotationAngle.value)
-
-                    const blob = new Blob([fileBuffer], { type: 'video/mp4' });
-                    const url = URL.createObjectURL(blob);
-
-                    // Create a temporary anchor element
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = rotationAngle.value + '_' + fileName.textContent;
-
-                    // Trigger the download
-                    link.click();
-
-                    // Optionally, revoke the object URL after download to free memory
-                    URL.revokeObjectURL(url);
-                    // Push event to GTM dataLayer
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        event: "video_rotate_success",
-                        video_angle: rotationAngle.value,
-                        video_name: fileName.textContent
-                    });
-                } else {
-                    document.getElementById('errorMessage').classList.remove('hidden');
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        event: "video_rotate_failure",
-                        video_angle: rotationAngle.value,
-                        video_name: fileName.textContent
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="js/utils.js"></script>
+    <script src="js/video-handler.js" type="module"></script>
+    <script src="js/trim-handler.js"></script>
 </body>
-
 </html>
