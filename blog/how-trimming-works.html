@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Learn how to trim MP4 videos without re-encoding using edit lists, preserving quality and saving processing time.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
+
+    <title>Trimming MP4 Videos Without Re-encoding | Understanding Edit Lists</title>
+    <style>
+        :root {
+            --primary-color: #ff5b1b;
+            --secondary-color: #ca9950;
+            --background-color: #f9f9f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --text-secondary: #666666;
+            --border-color: #eeeeee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--card-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .blog-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+
+        .blog-content {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+
+        .blog-content h2 {
+            color: var(--primary-color);
+            margin: 0.5rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .blog-content h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.4rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-content ul,
+        .blog-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .blog-content blockquote {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .cta-box {
+            background-color: rgba(255, 91, 27, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .cta-box h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background-color: #fafafa;
+        }
+
+        .info-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .navigation-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .nav-card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--card-color);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .buy-me-coffee {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+
+        code,
+        pre {
+            font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            background: #282a36;
+            color: #f8f8f2;
+            padding: 5px;
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+            overflow-x: auto;
+            /* Only horizontal scrolling */
+            max-width: 100%;
+            /* Keep within the container */
+        }
+
+        /* Video container styles */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            /* Ensure the container spans the full width */
+            padding: 1rem;
+        }
+
+        video {
+            width: 100%;
+            /* Set the video width */
+            max-width: 640px;
+            /* Maximum width */
+            border-radius: 10px;
+            height: auto;
+            /* Maintain aspect ratio */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Example visualization */
+        .example-box {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* Functions */
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .blog-title {
+                font-size: 2rem;
+            }
+
+            .blog-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false }
+                ]
+            });
+        });
+    </script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">Rotately</a>
+            <nav class="nav-links">
+                <a href="../index.html">Rotately</a>
+                <a href="../click-track.html">TapTempo</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://www.buymeacoffee.com/rotately.live">Support Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="blog-header">
+            <h1 class="blog-title">Trimming MP4 Videos Without Re-encoding</h1>
+            <h2 class="blog-subtitle">Understanding Edit Lists and Preserving Video Quality</h2>
+        </div>
+
+        <article class="blog-content">
+            <h2>The Power of MP4 Edit Lists</h2>
+
+            <p>This is not an attempt to create a product competing with NLE or FFmpeg, but rather an exploration to
+                better understand MP4 structure. Video standards are typically behind paywalls, making technical
+                knowledge harder to access. Even Large Language Models tend to hallucinate details when discussing video
+                standards.</p>
+
+            <h3>MP4: A Quick Primer</h3>
+
+            <p>MP4 files can be trimmed without re-encoding - even at points between keyframes - thanks to the edit atom
+                structure. Each track (<code>trak</code>) atom can contain an Edit List Box (<code>elst</code>), which
+                is contained within an Edit Box (<code>edts</code>).</p>
+
+            <p>The official purpose of the Edit Box is to map the presentation timeline to the media timeline as stored
+                in the file. The Edit Box serves as a container for edit lists.</p>
+
+            <h3>What Edit Lists Enable</h3>
+
+            <p>Edit lists allow for time shifting, trimming, or looping of media tracks without modifying the actual
+                media data. This is particularly useful for operations like:</p>
+            <ul>
+                <li><b>Trimming</b> the beginning or end of a track</li>
+                <li><b>Synchronizing</b> audio and video tracks</li>
+                <li><b>Looping or repeating</b> specific segments</li>
+            </ul>
+
+            <h3>Implementing a Basic Trim Operation</h3>
+
+            <p>Let's implement a simple trim operation: starting a 30-second video from 5 seconds in and playing for 20
+                seconds (ending at 25 seconds).</p>
+
+            <div class="example-box">
+                Original 30s Video & Audio Track:
+                [██████████████████████████████] 0s - 30s
+
+                After trimming 5s from start and 5s from end:
+                [████████████████████] 5s - 25s
+            </div>
+
+            <h3>The Critical Details: Timescales</h3>
+
+            <p>Here's where precision matters. The Edit List entries require specific calculations based on different
+                timescales:</p>
+            <ul>
+                <li>The <b>media time</b> (starting point) uses each <b>track's timescale</b> (<code>tkhd</code>)</li>
+                <li>The <b>segment duration</b> uses the <b>movie's timescale</b> (<code>mvhd</code>)</li>
+            </ul>
+
+            <h4>Given Timescales:</h4>
+            <ul>
+                <li><b>Video track timescale</b> = <b>1000</b> (1000 units per second)</li>
+                <li><b>Audio track timescale</b> = <b>48000</b> (48000 units per second)</li>
+                <li><b>Movie timescale</b> = <b>600</b> (600 units per second)</li>
+            </ul>
+
+            <h3>Calculating Edit List Entries</h3>
+
+            <h4>Video Track (<code>elst</code> entry):</h4>
+            <ul>
+                <li><b>Media time</b> = 5s × 1000 = 5000 units</li>
+                <li><b>Segment duration</b> = 20s × 600 = 12000 units</li>
+            </ul>
+
+            <h4>Audio Track (<code>elst</code> entry):</h4>
+            <ul>
+                <li><b>Media time</b> = 5s × 48000 = 240000 units</li>
+                <li><b>Segment duration</b> = 20s × 600 = 12000 units</li>
+            </ul>
+
+            <pre><code>Video: (segment_duration: 12000, media_time: 5000, media_rate_integer: 1, media_rate_fraction: 0)  
+Audio: (segment_duration: 12000, media_time: 240000, media_rate_integer: 1, media_rate_fraction: 0)</code></pre>
+
+            <h3>Understanding the Parameters</h3>
+
+            <p>Each Edit List entry contains several important parameters:</p>
+            <ul>
+                <li><b>segment_duration</b>: Duration of playback in movie (<code>mvhd</code>) timescale units</li>
+                <li><b>media_time</b>: Starting point in the media track in track (<code>tkhd</code>) timescale units
+                </li>
+                <li><b>media_rate_integer</b>: Set to 1 for normal playback speed</li>
+                <li><b>media_rate_fraction</b>: Always 0 as per spec</li>
+            </ul>
+
+            <div class="cta-box">
+                <h3>Experience Lossless Video Trimming</h3>
+                <p>Try our browser-based MP4 trimming tool that uses edit lists to trim your videos instantly without
+                    quality loss. No uploads required - everything happens right in your browser.</p>
+                <a href="../index.html" class="cta-button">Trim Without Quality Loss</a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="buy-me-coffee">
+                <a href="https://www.buymeacoffee.com/rotately.live"><img
+                        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://x.com/rotately">Contact</a>
+            </div>
+            <p class="copyright">© 2025 Rotately. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
