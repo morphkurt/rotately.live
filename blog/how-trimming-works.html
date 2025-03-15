@@ -230,29 +230,70 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
         }
 
-        .example-form {
-            font-family: Arial, sans-serif;
-            max-width: 650px;
-            margin: 20px auto;
+        #edit-list-form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-header {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr;
+            font-weight: bold;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
         }
 
         .form-group {
-            display: flex;
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr;
             align-items: center;
+            margin: 10px 0;
             gap: 10px;
-            margin-bottom: 10px;
         }
 
-        .form-group label {
-            min-width: 20px;
+        .entry-col {
+            grid-column: 1;
         }
 
-        .form-group input {
-            flex: 1;
-            width: 100%;
-            max-width: 200px;
-            padding: 5px;
-            padding: 5px;
+        .duration-col {
+            grid-column: 2;
+        }
+
+        .mediatime-col {
+            grid-column: 3;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .download-button {
+            background-color: #2196F3;
+            color: white;
         }
 
         .footer {
@@ -310,44 +351,6 @@
                 padding: 1.5rem;
             }
         }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        button {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 10px 15px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .submit-button {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .download-button {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .form-header {
-            display: flex;
-            font-weight: bold;
-            justify-content: space-evenly;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
     </style>
 
     <head>
@@ -373,7 +376,9 @@
             </div>
 
             <article class="blog-content">
-                <p>MP4 files have an obscure feature called edit lists. In theory, they let you trim, delay, and speed up video playback without re-encoding. In practice, they’re mostly used to fix sync issues—and barely supported by modern players. Here’s why this elegant feature never quite took off.</p>
+                <p>MP4 files have an obscure feature called edit lists. In theory, they let you trim, delay, and speed
+                    up video playback without re-encoding. In practice, they’re mostly used to fix sync issues—and
+                    barely supported by modern players. Here’s why this elegant feature never quite took off.</p>
 
                 <h2>The Orchestra Analogy</h2>
 
@@ -572,48 +577,47 @@
                     <h3>Edit List Demo</h3>
                     <form id="edit-list-form">
                         <div class="form-header">
-                            <span>Entry</span>
-                            <span>Segment Duration</span>
-                            <span>Media Time</span>
-
+                            <span class="entry-col">Entry</span>
+                            <span class="duration-col">Segment Duration</span>
+                            <span class="mediatime-col">Media Time</span>
                         </div>
                         <div class="form-group">
-                            <label for="entry1-duration">Entry 1:</label>
-                            <input type="text" id="entry1-duration" value="00:00:05.000"
+                            <label for="entry1-duration" class="entry-col">Entry 1:</label>
+                            <input type="text" id="entry1-duration" class="duration-col" value="00:00:05.000"
                                 placeholder="Duration (HH:MM:SS:mmm)">
-                            <input type="text" id="entry1-mediatime" value="00:00:00.000"
+                            <input type="text" id="entry1-mediatime" class="mediatime-col" value="00:00:00.000"
                                 placeholder="Media Time (HH:MM:SS:mmm)">
                         </div>
 
                         <div class="form-group">
-                            <label for="entry2-duration">Entry 2:</label>
-                            <input type="text" id="entry2-duration" value="00:00:05.000"
+                            <label for="entry2-duration" class="entry-col">Entry 2:</label>
+                            <input type="text" id="entry2-duration" class="duration-col" value="00:00:05.000"
                                 placeholder="Duration (HH:MM:SS:mmm)">
-                            <input type="text" id="entry2-mediatime" value="00:00:05.000"
+                            <input type="text" id="entry2-mediatime" class="mediatime-col" value="00:00:05.000"
                                 placeholder="Media Time (HH:MM:SS:mmm)">
                         </div>
 
                         <div class="form-group">
-                            <label for="entry3-duration">Entry 3:</label>
-                            <input type="text" id="entry3-duration" value="00:00:05.000"
+                            <label for="entry3-duration" class="entry-col">Entry 3:</label>
+                            <input type="text" id="entry3-duration" class="duration-col" value="00:00:05.000"
                                 placeholder="Duration (HH:MM:SS:mmm)">
-                            <input type="text" id="entry3-mediatime" value="00:00:10.000"
+                            <input type="text" id="entry3-mediatime" class="mediatime-col" value="00:00:10.000"
                                 placeholder="Media Time (HH:MM:SS:mmm)">
                         </div>
 
                         <div class="form-group">
-                            <label for="entry4-duration">Entry 4:</label>
-                            <input type="text" id="entry4-duration" value="00:00:05.000"
+                            <label for="entry4-duration" class="entry-col">Entry 4:</label>
+                            <input type="text" id="entry4-duration" class="duration-col" value="00:00:05.000"
                                 placeholder="Duration (HH:MM:SS:mmm)">
-                            <input type="text" id="entry4-mediatime" value="00:00:15.000"
+                            <input type="text" id="entry4-mediatime" class="mediatime-col" value="00:00:15.000"
                                 placeholder="Media Time (HH:MM:SS:mmm)">
                         </div>
 
                         <div class="form-group">
-                            <label for="entry5-duration">Entry 5:</label>
-                            <input type="text" id="entry5-duration" value="00:00:40.000"
+                            <label for="entry5-duration" class="entry-col">Entry 5:</label>
+                            <input type="text" id="entry5-duration" class="duration-col" value="00:00:40.000"
                                 placeholder="Duration (HH:MM:SS:mmm)">
-                            <input type="text" id="entry5-mediatime" value="00:00:20.000"
+                            <input type="text" id="entry5-mediatime" class="mediatime-col" value="00:00:20.000"
                                 placeholder="Media Time (HH:MM:SS:mmm)">
                         </div>
 
@@ -624,6 +628,7 @@
                             <button type="button" class="download-button" id="download">
                                 <span>Download</span>
                             </button>
+                        </div>
                     </form>
                 </div>
 
