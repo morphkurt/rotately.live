@@ -230,7 +230,18 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
         }
 
-        #edit-list-form {
+        <form id="edit-list-form"><div class="form-header"><span class="entry-col">Entry</span><span class="duration-col">Segment Duration</span><span class="mediatime-col">Media Time</span></div><div class="form-group"><label for="entry1-duration" class="entry-col">Entry 1:</label><input type="text" id="entry1-duration" class="duration-col" value="00:00:05.000"
+        placeholder="Duration (HH:MM:SS:mmm)"><input type="text" id="entry1-mediatime" class="mediatime-col" value="00:00:00.000"
+        placeholder="Media Time (HH:MM:SS:mmm)"></div><div class="form-group"><label for="entry2-duration" class="entry-col">Entry 2:</label><input type="text" id="entry2-duration" class="duration-col" value="00:00:05.000"
+        placeholder="Duration (HH:MM:SS:mmm)"><input type="text" id="entry2-mediatime" class="mediatime-col" value="00:00:05.000"
+        placeholder="Media Time (HH:MM:SS:mmm)"></div><div class="form-group"><label for="entry3-duration" class="entry-col">Entry 3:</label><input type="text" id="entry3-duration" class="duration-col" value="00:00:05.000"
+        placeholder="Duration (HH:MM:SS:mmm)"><input type="text" id="entry3-mediatime" class="mediatime-col" value="00:00:10.000"
+        placeholder="Media Time (HH:MM:SS:mmm)"></div><div class="form-group"><label for="entry4-duration" class="entry-col">Entry 4:</label><input type="text" id="entry4-duration" class="duration-col" value="00:00:05.000"
+        placeholder="Duration (HH:MM:SS:mmm)"><input type="text" id="entry4-mediatime" class="mediatime-col" value="00:00:15.000"
+        placeholder="Media Time (HH:MM:SS:mmm)"></div><div class="form-group"><label for="entry5-duration" class="entry-col">Entry 5:</label><input type="text" id="entry5-duration" class="duration-col" value="00:00:40.000"
+        placeholder="Duration (HH:MM:SS:mmm)"><input type="text" id="entry5-mediatime" class="mediatime-col" value="00:00:20.000"
+
+        placeholder="Media Time (HH:MM:SS:mmm)"></div><div class="button-group"><button type="button" class="submit-button" id="apply"><span>Apply</span></button><button type="button" class="download-button" id="download"><span>Download</span></button></div></form><style>#edit-list-form {
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -240,36 +251,27 @@
 
         .form-header {
             display: grid;
-            grid-template-columns: 100px 1fr 1fr;
+            grid-template-columns: minmax(80px, 1fr) minmax(120px, 2fr) minmax(120px, 2fr);
             font-weight: bold;
             padding: 10px 0;
             border-bottom: 1px solid #ccc;
+            gap: 10px;
         }
 
         .form-group {
             display: grid;
-            grid-template-columns: 100px 1fr 1fr;
+            grid-template-columns: minmax(80px, 1fr) minmax(120px, 2fr) minmax(120px, 2fr);
             align-items: center;
             margin: 10px 0;
             gap: 10px;
-        }
-
-        .entry-col {
-            grid-column: 1;
-        }
-
-        .duration-col {
-            grid-column: 2;
-        }
-
-        .mediatime-col {
-            grid-column: 3;
         }
 
         input {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .button-group {
@@ -294,6 +296,42 @@
         .download-button {
             background-color: #2196F3;
             color: white;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media screen and (max-width: 600px) {
+            .form-header {
+                display: none;
+                /* Hide headers on small screens */
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 15px;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            input {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
         }
 
         .footer {
