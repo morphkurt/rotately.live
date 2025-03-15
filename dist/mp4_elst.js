@@ -255,6 +255,9 @@ export function parseMdhdTimescale(buffer, startOffset) {
     return timescale;
 }
 export function modifyElstAtom(buffer, elstAtom, startTimeUs, endTimeUs) {
+    modifyElstAtomWithMultipleEntries(buffer, elstAtom, startTimeUs, endTimeUs, 1);
+}
+export function modifyElstAtomWithMultipleEntries(buffer, elstAtom, startTimeUs, endTimeUs, index) {
     let byteArray = elstAtom.version == 1 ? new Uint8Array(16) : new Uint8Array(8);
     const duration = endTimeUs - startTimeUs;
     const scaledSegmentDuration = BigInt(Math.round(Number(duration) * elstAtom.mvhdTimescale / Number(1000000)));
@@ -267,7 +270,8 @@ export function modifyElstAtom(buffer, elstAtom, startTimeUs, endTimeUs) {
         byteArray.set(NumberToUint8Array(Number(scaledSegmentDuration)), 0);
         byteArray.set(NumberToUint8Array(Number(mediaTime)), 4);
     }
-    buffer.set(byteArray, elstAtom.offset + 16);
+    let offset = elstAtom.version == 1 ? (index - 1) * 20 : (index - 1) * 12;
+    buffer.set(byteArray, offset + elstAtom.offset + 16);
     function BigIntToUint8Array(value) {
         let arr = new Uint8Array(8);
         for (let i = 0; i < 8; i++) {

@@ -2,31 +2,11 @@
 <html lang="en">
 
 <head>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
-    <!-- End Google Tag Manager -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Learn how to trim MP4 videos without re-encoding using edit lists, preserving quality and saving processing time.">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
-
-    <!-- KaTeX JS -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
-
-    <title>Trimming MP4 Videos Without Re-encoding | Understanding Edit Lists</title>
+        content="Learn about MP4 edit lists and how they control video playback timing and synchronization.">
+    <title>Understanding MP4 Edit Lists | Rotately Blog</title>
     <style>
         :root {
             --primary-color: #ff5b1b;
@@ -124,7 +104,7 @@
 
         .blog-content h2 {
             color: var(--primary-color);
-            margin: 0.5rem 0 1rem;
+            margin: 2rem 0 1rem;
             font-size: 1.8rem;
         }
 
@@ -148,18 +128,30 @@
             margin-bottom: 0.5rem;
         }
 
-        .blog-content img {
-            max-width: 100%;
+        .code-block {
+            font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            background: #282a36;
+            color: #f8f8f2;
+            padding: 15px;
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+            overflow-x: auto;
             margin: 1.5rem 0;
+            line-height: 1.4;
         }
 
-        .blog-content blockquote {
-            border-left: 4px solid var(--secondary-color);
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-            font-style: italic;
-            color: var(--text-secondary);
+        .info-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background-color: #fafafa;
+        }
+
+        .info-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
         }
 
         .cta-box {
@@ -191,53 +183,76 @@
             background-color: var(--secondary-color);
         }
 
-        .image-caption {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: -1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-card {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
+        .timeline-diagram {
             margin: 2rem 0;
-            background-color: #fafafa;
-        }
-
-        .info-card h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-        }
-
-        .navigation-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0 1.5rem;
-        }
-
-        .nav-card {
-            background-color: var(--card-color);
-            border-radius: 8px;
             padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            color: var(--text-color);
-            display: block;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            overflow-x: auto;
         }
 
-        .nav-card:hover {
-            transform: translateY(-5px);
+        .timeline {
+            height: 80px;
+            position: relative;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-segment {
+            position: absolute;
+            height: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Video container styles */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            /* Ensure the container spans the full width */
+            padding: 1rem;
+        }
+
+        video {
+            width: 100%;
+            /* Set the video width to 100px */
+            border-radius: 10px;
+            height: auto;
+            /* Maintain aspect ratio */
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
         }
 
-        .nav-card h3 {
-            margin-bottom: 0.75rem;
-            color: var(--primary-color);
+        .example-form {
+            font-family: Arial, sans-serif;
+            max-width: 650px;
+            margin: 20px auto;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            min-width: 20px;
+        }
+
+        .form-group input {
+            flex: 1;
+            width: 100%;
+            max-width: 200px;
+            padding: 5px;
+            padding: 5px;
         }
 
         .footer {
@@ -277,60 +292,6 @@
             margin-top: 1.5rem;
         }
 
-        .buy-me-coffee {
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-
-        code,
-        pre {
-            font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
-            font-size: 14px;
-            background: #282a36;
-            color: #f8f8f2;
-            padding: 5px;
-            border-radius: 4px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-            overflow-x: auto;
-            /* Only horizontal scrolling */
-            max-width: 100%;
-            /* Keep within the container */
-        }
-
-        /* Video container styles */
-        .video-container {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            /* Ensure the container spans the full width */
-            padding: 1rem;
-        }
-
-        video {
-            width: 100%;
-            /* Set the video width */
-            max-width: 640px;
-            /* Maximum width */
-            border-radius: 10px;
-            height: auto;
-            /* Maintain aspect ratio */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        /* Example visualization */
-        .example-box {
-            background-color: #f5f5f5;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            font-family: monospace;
-            white-space: pre;
-            overflow-x: auto;
-        }
-
-        /* Functions */
-
         @media (max-width: 600px) {
             .header-content {
                 flex-direction: column;
@@ -349,153 +310,473 @@
                 padding: 1.5rem;
             }
         }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .download-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .form-header {
+            display: flex;
+            font-weight: bold;
+            justify-content: space-evenly;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
     </style>
-</head>
 
-<body>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "\\(", right: "\\)", display: false }
-                ]
-            });
-        });
-    </script>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <head>
 
-    <header class="header">
-        <div class="header-content">
-            <a href="../index.html" class="logo">Rotately</a>
-            <nav class="nav-links">
-                <a href="../index.html">Rotately</a>
-                <a href="../click-track.html">TapTempo</a>
-                <a href="how-it-works.html">How It Works</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="https://www.buymeacoffee.com/rotately.live">Support Us</a>
-            </nav>
-        </div>
-    </header>
+    <body>
+        <header class="header">
+            <div class="header-content">
+                <a href="../index.html" class="logo">Rotately</a>
+                <nav class="nav-links">
+                    <a href="../index.html">Rotately</a>
+                    <a href="../click-track.html">TapTempo</a>
+                    <a href="how-it-works.html">How It Works</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="https://www.buymeacoffee.com/rotately.live">Support Us</a>
+                </nav>
+            </div>
+        </header>
 
-    <main class="main">
-        <div class="blog-header">
-            <h1 class="blog-title">Trimming MP4 Videos Without Re-encoding</h1>
-            <h2 class="blog-subtitle">Understanding Edit Lists and Preserving Video Quality</h2>
-        </div>
-
-        <article class="blog-content">
-            <h2>The Power of MP4 Edit Lists</h2>
-
-            <p>This is not an attempt to create a product competing with NLE or FFmpeg, but rather an exploration to
-                better understand MP4 structure. Video standards are typically behind paywalls, making technical
-                knowledge harder to access. Even Large Language Models tend to hallucinate details when discussing video
-                standards.</p>
-
-            <h3>MP4: A Quick Primer</h3>
-
-            <p>MP4 files can be trimmed without re-encoding - even at points between keyframes - thanks to the edit atom
-                structure. Each track (<code>trak</code>) atom can contain an Edit List Box (<code>elst</code>), which
-                is contained within an Edit Box (<code>edts</code>).</p>
-
-            <p>The official purpose of the Edit Box is to map the presentation timeline to the media timeline as stored
-                in the file. The Edit Box serves as a container for edit lists.</p>
-
-            <h3>What Edit Lists Enable</h3>
-
-            <p>Edit lists allow for time shifting, trimming, or looping of media tracks without modifying the actual
-                media data. This is particularly useful for operations like:</p>
-            <ul>
-                <li><b>Trimming</b> the beginning or end of a track</li>
-                <li><b>Synchronizing</b> audio and video tracks</li>
-                <li><b>Looping or repeating</b> specific segments</li>
-            </ul>
-
-            <h3>Implementing a Basic Trim Operation</h3>
-
-            <p>Let's implement a simple trim operation: starting a 30-second video from 5 seconds in and playing for 20
-                seconds (ending at 25 seconds).</p>
-
-            <div class="example-box">
-                Original 30s Video & Audio Track:
-                [██████████████████████████████] 0s - 30s
-
-                After trimming 5s from start and 5s from end:
-                [████████████████████] 5s - 25s
+        <main class="main">
+            <div class="blog-header">
+                <h1 class="blog-title">Understanding MP4 Edit Lists</h1>
+                <h2 class="blog-subtitle">The Hidden Conductor of Your Video's Timeline</h2>
             </div>
 
-            <h3>The Critical Details: Timescales</h3>
+            <article class="blog-content">
+                <p>MP4 files have an obscure feature called edit lists. In theory, they let you trim, delay, and speed up video playback without re-encoding. In practice, they’re mostly used to fix sync issues—and barely supported by modern players. Here’s why this elegant feature never quite took off.</p>
 
-            <p>Here's where precision matters. The Edit List entries require specific calculations based on different
-                timescales:</p>
-            <ul>
-                <li>The <b>media time</b> (starting point) uses each <b>track's timescale</b> (<code>tkhd</code>)</li>
-                <li>The <b>segment duration</b> uses the <b>movie's timescale</b> (<code>mvhd</code>)</li>
-            </ul>
+                <h2>The Orchestra Analogy</h2>
 
-            <h4>Given Timescales:</h4>
-            <ul>
-                <li><b>Video track timescale</b> = <b>1000</b> (1000 units per second)</li>
-                <li><b>Audio track timescale</b> = <b>48000</b> (48000 units per second)</li>
-                <li><b>Movie timescale</b> = <b>600</b> (600 units per second)</li>
-            </ul>
+                <p>Think of an edit list as the conductor in an orchestra. In technical terms, the presentation timeline
+                    is
+                    the performance the audience sees, while media timelines are like the individual instruments in the
+                    orchestra. Edit lists are meant to use the media to orchestrate the presentation timeline according
+                    to
+                    creative intent.</p>
 
-            <h3>Calculating Edit List Entries</h3>
+                <p>But here's the catch—the edit list atom (<code>edts</code>) is optional. In its absence, it's like
+                    having
+                    the instruments play to the timing of the percussion section with only their sheet music to guide
+                    them.
+                    The media simply plays.</p>
 
-            <h4>Video Track (<code>elst</code> entry):</h4>
-            <ul>
-                <li><b>Media time</b> = 5s × 1000 = 5000 units</li>
-                <li><b>Segment duration</b> = 20s × 600 = 12000 units</li>
-            </ul>
+                <p>Perhaps my orchestra analogy is a bit romantic, but it captures the essence of what edit lists were
+                    designed to do.</p>
 
-            <h4>Audio Track (<code>elst</code> entry):</h4>
-            <ul>
-                <li><b>Media time</b> = 5s × 48000 = 240000 units</li>
-                <li><b>Segment duration</b> = 20s × 600 = 12000 units</li>
-            </ul>
+                <h2>The Reality: Fixing Sync Issues</h2>
 
-            <pre><code>Video: (segment_duration: 12000, media_time: 5000, media_rate_integer: 1, media_rate_fraction: 0)  
-Audio: (segment_duration: 12000, media_time: 240000, media_rate_integer: 1, media_rate_fraction: 0)</code></pre>
+                <p>In practice, edit lists are often used to hide the <i>"sins"</i> of media tracks. Most commonly,
+                    they're
+                    employed to adjust audio-video sync issues by delaying one track relative to another. Think of those
+                    moments when you watch a video and the lips don't match the words—edit lists can help fix that.</p>
 
-            <h3>Understanding the Parameters</h3>
+                <h2>Diving into the Technical Structure</h2>
 
-            <p>Each Edit List entry contains several important parameters:</p>
-            <ul>
-                <li><b>segment_duration</b>: Duration of playback in movie (<code>mvhd</code>) timescale units</li>
-                <li><b>media_time</b>: Starting point in the media track in track (<code>tkhd</code>) timescale units
-                </li>
-                <li><b>media_rate_integer</b>: Set to 1 for normal playback speed</li>
-                <li><b>media_rate_fraction</b>: Always 0 as per spec</li>
-            </ul>
+                <p>The <code>edts</code> atom, which is the container for the <code>elst</code> atom (edit list),
+                    resides in
+                    each <code>trak</code> atom. Each <code>trak</code> atom is in the <code>moov</code> atom. This
+                    makes it
+                    a bit tricky to work with.</p>
 
-            <div class="cta-box">
-                <h3>Experience Lossless Video Trimming</h3>
-                <p>Try our browser-based MP4 trimming tool that uses edit lists to trim your videos instantly without
-                    quality loss. No uploads required - everything happens right in your browser.</p>
-                <a href="../index.html" class="cta-button">Trim Without Quality Loss</a>
+                <p>Most videos have an <code>edts</code> atom with a single entry. You can manipulate this entry in
+                    place
+                    without too much trouble. But adding another entry to the <code>elst</code> atom means changing the
+                    size
+                    field of all parent atoms. This gets complicated because if the <code>moov</code> atom is positioned
+                    before the <code>mdat</code> atom (media data), any changes to <code>moov</code> will alter the
+                    absolute
+                    offset of chunk data referenced in the <code>stss</code> atom, causing playback to fail.</p>
+
+                <p>For manual explorations, it's best to work with videos where the <code>moov</code> atom comes after
+                    the
+                    <code>mdat</code> atom.
+                </p>
+
+                <h3>Edit List Structure</h3>
+
+                <p>Here's what the edit list structure looks like in code:</p>
+
+                <div class="code-block">
+                    <pre><code class="lang-c">
+                    aligned(8) class EditListBox extends FullBox('elst', version, 0) {  
+                        unsigned int(32) entry_count;  
+                    
+                        for (i = 0; i < entry_count; i++) {  
+                            if (version == 1) {  
+                                unsigned int(64) segment_duration;  
+                                signed int(64) media_time;  
+                            } else {  // version == 0  
+                                unsigned int(32) segment_duration;  
+                                signed int(32) media_time;  
+                            }  
+                            
+                            int(16) media_rate_integer;  
+                            int(16) media_rate_fraction;  
+                        }  
+                    }                            
+                </code></pre>
+                </div>
+                <h3>Key Components Explained</h3>
+
+                <ul>
+                    <li><b>segment_duration</b>: Specifies how long this edit lasts (either 32-bit or 64-bit,
+                        depending on version).</li>
+                    <li><b>media_time</b>: Specifies the starting point in the media. A value of -1 indicates an
+                        empty edit, creating a gap in playback.</li>
+                    <li><b>media_rate_integer</b>: Integer part of the playback speed.</li>
+                    <li><b>media_rate_fraction</b>: Fractional part of the playback speed. Together with
+                        media_rate_integer, they form a 16.16 fixed-point number (e.g., 1.0000 = normal speed,
+                        0.5000 = half speed).</li>
+                </ul>
+
+                <h2>What Can You Do With Edit Lists?</h2>
+
+                <h3>Trimming Videos</h3>
+
+                <p>Let's say you have a 30-second video, but you only want to play a segment from 5 seconds to 25
+                    seconds. Instead of re-encoding the video, you can use edit lists to define exactly which
+                    portion plays.</p>
+
+                <div class="timeline-diagram">
+                    <p><b>Original Video (30s):</b></p>
+                    <div class="timeline">
+                        <div class="timeline-segment" style="left: 0%; width: 100%; background-color: #ca9950;">Full
+                            30s Video</div>
+                    </div>
+
+                    <p><b>Trimmed with Edit List (5s-25s):</b></p>
+                    <div class="timeline">
+                        <div class="timeline-segment" style="left: 16.7%; width: 66.6%;">20s Segment (5s-25s)</div>
+                    </div>
+                </div>
+
+                <p>To achieve this, you'd create an edit list with one entry where:</p>
+                <ul>
+                    <li><b>segment_duration</b> = 20 seconds (in the video's time scale)</li>
+                    <li><b>media_time</b> = 5 seconds (in the video's time scale)</li>
+                    <li><b>media_rate_integer</b> = 1</li>
+                    <li><b>media_rate_fraction</b> = 0</li>
+                </ul>
+
+                <h3>Creating Complex Edits</h3>
+
+                <p>You can get more creative by using multiple entries. For example, what if you want to play
+                    seconds 5-10 and then jump to seconds 15-25?</p>
+
+                <div class="timeline-diagram">
+                    <p><b>Complex Edit List Example:</b></p>
+                    <div class="timeline">
+                        <div class="timeline-segment" style="left: 16.7%; width: 16.7%;">5s-10s</div>
+                        <div class="timeline-segment" style="left: 50%; width: 33.3%;">15s-25s</div>
+                    </div>
+                </div>
+
+                <p>This would require two edit list entries:</p>
+                <ol>
+                    <li>First entry: segment_duration = 5s, media_time = 5s</li>
+                    <li>Second entry: segment_duration = 10s, media_time = 15s</li>
+                </ol>
+
+                <p>The beauty is that this works regardless of where the keyframes are in your video. The decoder
+                    handles the heavy lifting of decoding entry points, even if they fall between keyframes.</p>
+
+                <h3>Creating Delays with Empty Edits</h3>
+
+                <p>Another interesting use case: you can set <code>media_time = -1</code> to create an empty edit—a
+                    gap in the presentation. This is particularly useful for syncing audio and video tracks.</p>
+
+                <p>For example, if your audio track is 5 seconds behind your video track, you could add an empty
+                    edit to the video track:</p>
+
+                <div class="timeline-diagram">
+                    <p><b>Audio/Video Sync Example:</b></p>
+                    <div class="timeline">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; text-align: left; padding: 5px;">
+                            Video Track</div>
+                        <div class="timeline-segment" style="left: 16.7%; width: 83.3%;">Video Content (delayed by
+                            5s)</div>
+                    </div>
+                    <div class="timeline" style="margin-top: 20px;">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; text-align: left; padding: 5px;">
+                            Audio Track</div>
+                        <div class="timeline-segment" style="left: 0; width: 100%;">Audio Content (starts
+                            immediately)</div>
+                    </div>
+                </div>
+
+                <p>The edit list entry would look like:</p>
+                <ul>
+                    <li><b>segment_duration</b> = 5 seconds</li>
+                    <li><b>media_time</b> = -1 (empty edit)</li>
+                    <li>Followed by a normal entry for the actual video content</li>
+                </ul>
+
+                <h3>Changing Playback Speed</h3>
+
+                <p>You can also manipulate the <code>media_rate_integer</code> and <code>media_rate_fraction</code>
+                    fields to change playback speed. For example:</p>
+
+                <ul>
+                    <li>Normal speed: media_rate_integer = 1, media_rate_fraction = 0</li>
+                    <li>Half speed: media_rate_integer = 0, media_rate_fraction = 32768 (0.5 in fixed-point)</li>
+                    <li>Double speed: media_rate_integer = 2, media_rate_fraction = 0</li>
+                </ul>
+
+                <p>However, this is where we run into issues with implementation. While the MP4 standard supports
+                    varying playback speeds through edit lists, many players simply ignore this feature. QuickTime
+                    Player and FFplay might respect it, but most web browsers won't.</p>
+
+                <h2>Try It Yourself</h2>
+
+                <p>If you'd like to experiment with edit lists, hear is hack where the video's elst atoms are
+                    manipulated according to what is given by the form.</p>
+                <p>There is no html trickery, just modifying the buffer directly and loaded to video element.</p>
+
+                <div class="video-container">
+                    <video id="video" width="600" controls>
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div class="example-form">
+                    <h3>Edit List Demo</h3>
+                    <form id="edit-list-form">
+                        <div class="form-header">
+                            <span>Entry</span>
+                            <span>Segment Duration</span>
+                            <span>Media Time</span>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="entry1-duration">Entry 1:</label>
+                            <input type="text" id="entry1-duration" value="00:00:05.000"
+                                placeholder="Duration (HH:MM:SS:mmm)">
+                            <input type="text" id="entry1-mediatime" value="00:00:00.000"
+                                placeholder="Media Time (HH:MM:SS:mmm)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry2-duration">Entry 2:</label>
+                            <input type="text" id="entry2-duration" value="00:00:05.000"
+                                placeholder="Duration (HH:MM:SS:mmm)">
+                            <input type="text" id="entry2-mediatime" value="00:00:05.000"
+                                placeholder="Media Time (HH:MM:SS:mmm)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry3-duration">Entry 3:</label>
+                            <input type="text" id="entry3-duration" value="00:00:05.000"
+                                placeholder="Duration (HH:MM:SS:mmm)">
+                            <input type="text" id="entry3-mediatime" value="00:00:10.000"
+                                placeholder="Media Time (HH:MM:SS:mmm)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry4-duration">Entry 4:</label>
+                            <input type="text" id="entry4-duration" value="00:00:05.000"
+                                placeholder="Duration (HH:MM:SS:mmm)">
+                            <input type="text" id="entry4-mediatime" value="00:00:15.000"
+                                placeholder="Media Time (HH:MM:SS:mmm)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry5-duration">Entry 5:</label>
+                            <input type="text" id="entry5-duration" value="00:00:40.000"
+                                placeholder="Duration (HH:MM:SS:mmm)">
+                            <input type="text" id="entry5-mediatime" value="00:00:20.000"
+                                placeholder="Media Time (HH:MM:SS:mmm)">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="submit-button" id="apply">
+                                <span>Apply</span>
+                            </button>
+                            <button type="button" class="download-button" id="download">
+                                <span>Download</span>
+                            </button>
+                    </form>
+                </div>
+
+
+                <div class="info-card">
+                    <h4>Technical Note</h4>
+                    <p>One advantage of edit lists is that you don't need to worry about keyframe positions when
+                        making edits. The decoder handles the complexity of jumping to arbitrary timestamps, even if
+                        they don't align with keyframes.</p>
+                </div>
+
+                <h2>Why Implementation is Inconsistent</h2>
+
+                <p>You might wonder why such a useful feature isn't universally supported. I believe one key reason
+                    is that MP4 specifications are often behind paywalls, making them less accessible to open-source
+                    developers. Many implementations are based on reverse engineering rather than official
+                    documentation, leading to inconsistent support.</p>
+
+                <p>This is evident when testing playback speed changes through edit lists. While QuickTime and
+                    FFplay might honor them, most web browsers won't. It's another case of <i>"the standard allows it,
+                        but the players don't support it."</i></p>
+
+                <p>Edit lists represent a powerful but underutilized feature of the MP4 format. They allow for
+                    precise control over video playback without re-encoding—trimming content, adjusting
+                    synchronization, and even (theoretically) changing playback speed.</p>
+
+                <p>While implementation is inconsistent across players, understanding edit lists gives you deeper
+                    insight into how digital video works and opens up possibilities for lossless video editing
+                    through direct manipulation of MP4 metadata.</p>
+
+                <div class="info-card">
+                    <h4>TL;DR</h4>
+                    <ul>
+                        <li>MP4 edit lists allow precise video edits without re-encoding.</li>
+                        <li>They’re mostly used for audio/video sync fixes.</li>
+                        <li>Many media players don’t fully support them.</li>
+                        <li>Browser support is weak, but QuickTime and FFplay may respect them.</li>
+                        <li>Want to try it? Here's a demo.</li>
+                    </ul>
+                </div>
+
+                <div class="cta-box">
+                    <h3>Experience Lossless Video Editing</h3>
+                    <p>Try Rotately to experience how our tools use these advanced MP4 techniques to manipulate your
+                        videos without quality loss. Perfect for quick edits when quality matters.</p>
+                    <a href="../index.html" class="cta-button">Try Rotately Now</a>
+                </div>
+            </article>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="buy-me-coffee">
+                    <a href="https://www.buymeacoffee.com/rotately.live"><img
+                            src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="how-it-works.html">How It Works</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="https://x.com/rotately">Contact</a>
+                </div>
+                <p class="copyright">© 2025 Rotately. All rights reserved.</p>
             </div>
+        </footer>
+        <script type="module">
+            import { findVideoTkhdOffset, calculateMatrixOffset, modifyTkhdMatrix, getMatrix } from '../dist/mp4_tkhd.js';
+            import { findElstAtoms, modifyElstAtomWithMultipleEntries } from '../dist/mp4_elst.js';
+            const apply = document.getElementById('apply');
+            const download = document.getElementById('download');
 
-        </article>
-    </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="buy-me-coffee">
-                <a href="https://www.buymeacoffee.com/rotately.live"><img
-                        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
-            </div>
-            <div class="footer-links">
-                <a href="../index.html">Home</a>
-                <a href="how-it-works.html">How It Works</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="https://x.com/rotately">Contact</a>
-            </div>
-            <p class="copyright">© 2025 Rotately. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
+            apply.addEventListener('click', applyElst);
+            download.addEventListener('click', downloadVideo);
+
+
+
+            let uint8Array;
+            async function loadVideoFromURL(url) {
+                try {
+                    // Fetch the video
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+
+                    // Convert blob to ArrayBuffer
+                    const arrayBuffer = await blob.arrayBuffer();
+                    uint8Array = new Uint8Array(arrayBuffer);
+
+                    // Create a new Blob from the Uint8Array
+                    const newBlob = new Blob([uint8Array], { type: blob.type });
+
+                    // Create an object URL and assign it to the video element
+                    const videoURL = URL.createObjectURL(newBlob);
+                    video.src = videoURL;
+                } catch (error) {
+                    console.error("Error loading video:", error);
+                }
+            }
+
+
+            video.controls = true;
+
+            const videoUrl = "./bbb.mp4"; // Replace with your video URL
+            loadVideoFromURL(videoUrl);
+
+            function applyElst() {
+                const entries = [];
+                for (let i = 1; i <= 5; i++) {
+                    entries.push({
+                        duration: document.getElementById(`entry${i}-duration`).value,
+                        mediatime: document.getElementById(`entry${i}-mediatime`).value,
+                    });
+                }
+                if (uint8Array) {
+                    // Process video
+                    const edstAtoms = findElstAtoms(uint8Array);
+                    if (edstAtoms) {
+                        for (let i = 0; i < 5; i++) {
+                            // edstAtoms[0].entries[i]
+                            const startTimeUs = BigInt(Math.round(parseTime(entries[i].mediatime) * 1_000_000));
+                            const endTimeUs = BigInt(Math.round(parseTime(entries[i].duration) * 1_000_000 + parseTime(entries[i].mediatime) * 1_000_000));
+
+                            const videoElstAtom = edstAtoms[0];
+                            const audioElstAtom = edstAtoms[1];
+
+                            modifyElstAtomWithMultipleEntries(uint8Array, videoElstAtom, startTimeUs, endTimeUs, i + 1);
+                            modifyElstAtomWithMultipleEntries(uint8Array, audioElstAtom, startTimeUs, endTimeUs, i + 1);
+                        }
+                    }
+                }
+                // Create a new Blob from the Uint8Array
+                const newBlob = new Blob([uint8Array], { type: "video/mp4" });
+                // Create an object URL and assign it to the video element
+                const videoURL = URL.createObjectURL(newBlob);
+                video.src = videoURL;
+            }
+
+            function downloadVideo() {
+                console.log("tr")
+                // Create and trigger download
+                const blob = new Blob([uint8Array], { type: 'video/mp4' });
+                const url = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = "bbb.mp4";
+                link.click();
+
+                URL.revokeObjectURL(url);
+            }
+        </script>
+        <script src="../js/utils.js"></script>
+
+    </body>
 
 </html>
