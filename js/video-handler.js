@@ -106,15 +106,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         switch (activeTab) {
             case 'rotate':
-                // Call your existing rotation download function
+                pushDataLayerEvent("video_rotate");
                 handleDownload();
                 break;
             case 'trim':
                 // Call your existing trim download function
+                pushDataLayerEvent("video_trim");
                 handleDownload();
                 break;
             case 'audio':
                 // New function to handle audio extraction
+                pushDataLayerEvent("video_extract_audio");
                 handleAudioExtraction();
                 break;
         }
@@ -204,7 +206,6 @@ document.addEventListener('DOMContentLoaded', function () {
         video.onloadedmetadata = function () {
             const videoDuration = Math.round(video.duration);
             document.getElementById('endTime').value = formatTime(videoDuration);
-
             // Track video upload analytics
             pushDataLayerEvent("video_upload", {
                 video_name: file.name,
