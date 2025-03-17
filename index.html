@@ -26,9 +26,8 @@
     <!-- End Google Tag Manager (noscript) -->
     <div class="container">
         <h1>Rotately Live</h1>
-        <p class="info-message">All video rotation and trimming happens directly in your browser. Your video stays private—nothing is
-            sent to our servers. It's fast, secure, and completely safe!</p>
-        <p class="instructions">Upload a video, select the trim or/and rotation angle, and download the rotated video</p>
+        <p class="info-message">Rotate, trim, or extract audio from videos—instantly, right in your browser. No uploads, no waiting!</p>
+        <p class="instructions">Just upload, tweak, and download. Fast, simple, and private.</p>
 
         <div class="upload-area" id="uploadArea">
             <div class="upload-icon">
@@ -53,40 +52,64 @@
             <p class="file-name" id="fileName"></p>
         </div>
 
-        <div class="trimming-controls hidden" id="trimmingControls">
-            <h3>Trim Video</h3>
-            <div class="trim-slider-container">
-                <div class="trim-slider" id="trimSlider">
-                    <div class="trim-handle start" id="trimHandleStart"></div>
-                    <div class="trim-progress" id="trimProgress"></div>
-                    <div class="trim-handle end" id="trimHandleEnd"></div>
-                </div>
-                <div class="trim-timestamps">
-                    <div class="trim-time">
-                        <label for="startTime">Start:</label>
-                        <input type="text" id="startTime" class="time-input" value="00:00:00.000">
-                    </div>
-                    <div class="trim-time">
-                        <label for="endTime">End:</label>
-                        <input type="text" id="endTime" class="time-input" value="00:00:00.000">
-                    </div>
-                </div>
-                <button id="previewTrimBtn" class="secondary-button">Preview Trim</button>
-            </div>
+        <!-- Add this after your video preview div and before the controls div -->
+<div class="tab-container hidden" id="tabContainer">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="rotate">Rotate</button>
+      <button class="tab-button" data-tab="trim">Trim</button>
+      <button class="tab-button" data-tab="audio">Extract Audio</button>
+    </div>
+    
+    <div class="tab-content">
+      <!-- Rotate Tab -->
+      <div class="tab-pane active" id="rotateTab">
+        <div class="select-container">
+          <select id="rotationAngle">
+            <option value="" disabled selected>Select rotation angle</option>
+            <option value="90cw">90°</option>
+            <option value="180">180°</option>
+            <option value="90ccw">270°</option>
+          </select>
         </div>
-
-        <div class="controls">
-            <div class="select-container">
-                <select id="rotationAngle">
-                    <option value="" disabled selected>Select rotation angle</option>
-                    <option value="90cw">90°</option>
-                    <option value="180">180°</option>
-                    <option value="90ccw">270°</option>
-                </select>
+      </div>
+      
+      <!-- Trim Tab -->
+      <div class="tab-pane" id="trimTab">
+        <div class="trim-slider-container">
+          <div class="trim-slider" id="trimSlider">
+            <div class="trim-handle start" id="trimHandleStart"></div>
+            <div class="trim-progress" id="trimProgress"></div>
+            <div class="trim-handle end" id="trimHandleEnd"></div>
+          </div>
+          <div class="trim-timestamps">
+            <div class="trim-time">
+              <label for="startTime">Start:</label>
+              <input type="text" id="startTime" class="time-input" value="00:00:00.000">
             </div>
-
-            <button id="downloadBtn" disabled>Download Video</button>
+            <div class="trim-time">
+              <label for="endTime">End:</label>
+              <input type="text" id="endTime" class="time-input" value="00:00:00.000">
+            </div>
+          </div>
+          <button id="previewTrimBtn" class="secondary-button">Preview Trim</button>
         </div>
+      </div>
+      
+      <!-- Extract Audio Tab -->
+      <div class="tab-pane" id="audioTab">
+        <div class="audio-format-container">
+            <div class="spinner-container" id="spinnerContainer">
+                <div id="loading"></div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<div class="controls">
+    <button id="downloadBtn" disabled>Download</button>
+</div>
 
         <div class="how-it-works-cards">
             <div class="info-card">
