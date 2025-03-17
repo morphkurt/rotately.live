@@ -1,5 +1,7 @@
 import { findVideoTkhdOffset, calculateMatrixOffset, modifyTkhdMatrix, getMatrix } from '../dist/mp4_tkhd.js';
 import { findElstAtoms, modifyElstAtom } from '../dist/mp4_elst.js';
+import init, { parse_mp4 } from "./mp4_parser.js";
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // DOM Elements
@@ -11,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const rotationAngle = document.getElementById('rotationAngle');
     const downloadBtn = document.getElementById('downloadBtn');
     const errorMessage = document.getElementById('errorMessage');
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    const tabContainer = document.getElementById('tabContainer');
+    const trimmingControls = document.getElementById('trimmingControls');
+    const spinnerContainer = document.getElementById('spinnerContainer');
 
     // State variables
     let currentMatrix = null;
@@ -29,9 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
         uploadArea.addEventListener('dragleave', handleDragLeave);
         uploadArea.addEventListener('drop', handleDrop);
         videoInput.addEventListener('change', handleInputChange);
-
-        // Download event
-        downloadBtn.addEventListener('click', handleDownload);
     }
 
     /**
@@ -43,6 +48,102 @@ document.addEventListener('DOMContentLoaded', function () {
         uploadArea.style.borderColor = '#3498db';
         uploadArea.style.backgroundColor = 'rgba(52, 152, 219, 0.05)';
     }
+
+    // When video is loaded, show the tab container
+    function showTabsAfterVideoLoad() {
+        const videoPreview = document.getElementById('videoPreview');
+        if (!videoPreview.classList.contains('hidden')) {
+            tabContainer.classList.remove('hidden');
+
+            // Move trim controls to the trim tab if they exist
+            if (trimmingControls) {
+                // Hide the original container
+                trimmingControls.classList.add('hidden');
+            }
+        }
+    }
+
+    // Call this function when video is loaded
+    // You'll need to add this call to your existing video load handler
+
+    // Tab switching
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and panes
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+
+            // Add active class to current button and corresponding pane
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab') + 'Tab';
+            document.getElementById(tabId).classList.add('active');
+
+            // Update download button text based on selected tab
+            updateDownloadButtonText(button.getAttribute('data-tab'));
+        });
+    });
+
+    // Update download button text based on selected tab
+    function updateDownloadButtonText(tabType) {
+        switch (tabType) {
+            case 'rotate':
+                downloadBtn.textContent = 'Download Rotated Video';
+                break;
+            case 'trim':
+                downloadBtn.textContent = 'Download Trimmed Video';
+                break;
+            case 'audio':
+                downloadBtn.textContent = 'Download Audio';
+                break;
+            default:
+                downloadBtn.textContent = 'Download';
+        }
+    }
+
+    // Handle the download action based on active tab
+    downloadBtn.addEventListener('click', function () {
+        const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
+
+        switch (activeTab) {
+            case 'rotate':
+                // Call your existing rotation download function
+                handleDownload();
+                break;
+            case 'trim':
+                // Call your existing trim download function
+                handleDownload();
+                break;
+            case 'audio':
+                // New function to handle audio extraction
+                handleAudioExtraction();
+                break;
+        }
+    });
+
+    function handleAudioExtraction() {
+        spinnerContainer.style.display = 'flex'; // Show
+        setTimeout(() => {
+            try {
+                const parsedData = parse_mp4(fileBuffer);
+                if (parsedData) {
+                    // Create and trigger download
+                    const blob = new Blob([new Uint8Array(parsedData)], { type: 'audio/mp4' });
+                    const url = URL.createObjectURL(blob);
+    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'extracted_audio.m4a'
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                spinnerContainer.style.display = 'none'; // Show
+            }
+        },250);   
+    }
+
 
     /**
      * Handle dragleave event
@@ -114,8 +215,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Show video preview and trimming controls
         videoPreview.classList.remove('hidden');
-        document.getElementById('trimmingControls').classList.remove('hidden');
-        
+
+        // Show the tabs
+        document.getElementById('tabContainer').classList.remove('hidden');
+
         // Reset matrix
         currentMatrix = null;
     }
@@ -159,14 +262,14 @@ document.addEventListener('DOMContentLoaded', function () {
             // Create and trigger download
             const blob = new Blob([fileBuffer], { type: 'video/mp4' });
             const url = URL.createObjectURL(blob);
-            
+
             const link = document.createElement('a');
             link.href = url;
             link.download = fileName.textContent;
             link.click();
-            
+
             URL.revokeObjectURL(url);
-            
+
             // Track success
             pushDataLayerEvent("video_rotate_success", {
                 video_angle: rotationAngle.value,
@@ -175,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             // Show error
             errorMessage.classList.remove('hidden');
-            
+
             // Track failure
             pushDataLayerEvent("video_rotate_failure", {
                 video_angle: rotationAngle.value,
@@ -184,6 +287,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Wait for both DOM and WASM module to load
+    async function run() {
+        // Initialize the WASM module
+        await init();
+
+        console.log("WASM module loaded successfully!");
+    }
+
     // Initialize
     initEventListeners();
+    // Run the initialization
+    run().catch(e => {
+        console.error("Initialization failed:", e);
+        document.getElementById('status').textContent = 'Failed to load WASM module: ' + e.message;
+    });
 });
