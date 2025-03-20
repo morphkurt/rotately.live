@@ -1,152 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
-    <meta name="description" content="Rotate and trim videos quickly and for free, offline, with no special tools needed. Simple, fast, and efficient!">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotately Video Editor</title>
-    <link rel="stylesheet" href="styles.css">
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-N6RHQZWF');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rotately Live | Free Online Video Rotation, Trimming & Audio Extraction Tool</title>
+  <meta name="description"
+    content="Rotate, trim videos and extract audio instantly in your browser - 100% free, no signup, no ads. Edit videos quickly with no quality loss, all processing happens locally for complete privacy.">
+  <meta name="keywords"
+    content="free video rotation, online video trimming, browser video editor, extract audio online, no signup video editor, privacy-focused video editing, no watermark video tool">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rotately.live">
+  <meta property="og:title" content="Edit Videos for Free - No Signup, No Uploads">
+  <meta property="og:description"
+    content="Instantly rotate, trim videos and extract audio right in your browser. Free, private, and no quality loss.">
+  <meta property="og:image" content="https://rotately.live/images/og-image.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://rotately.live">
+  <meta property="twitter:title" content="Edit Videos for Free - No Signup, No Uploads">
+  <meta property="twitter:description"
+    content="Instantly rotate, trim videos and extract audio right in your browser. Free, private, and no quality loss.">
+  <meta property="twitter:image" content="https://rotately.live/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="76x76" href="images/apple-touch-icon-76x76.png">
+  <link rel="icon" type="image/png" sizes="57x57" href="images/apple-touch-icon-57x57.png">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Canonical URL --> 
+  <link rel="canonical" href="https://rotately.live/" />
 </head>
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <div class="container">
-        <h1>Rotately Live</h1>
-        <p class="info-message">Rotate, trim, or extract audio from videos—instantly, right in your browser. No uploads, no waiting!</p>
-        <p class="instructions">Just upload, tweak, and download. Fast, simple, and private.</p>
-
-        <div class="upload-area" id="uploadArea">
-            <div class="upload-icon">
-                <!-- SVG Upload Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                    <path
-                        d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm1 16h-2v-4H8l4-4 4 4h-3v4z"
-                        fill="var(--primary-color)" />
-                </svg>
-            </div>
-            <p>Drag and drop your video here or click to browse</p>
-            <input type="file" id="videoInput" accept=".mp4,.mov" style="display: none;">
-        </div>
-
-        <!-- Error message container -->
-        <div class="error-message hidden" id="errorMessage">
-            This video format is not supported. Please try a different video file (.mp4 format recommended).
-        </div>
-
-        <div class="video-preview hidden" id="videoPreview">
-            <video id="video" controls></video>
-            <p class="file-name" id="fileName"></p>
-        </div>
-
-        <!-- Add this after your video preview div and before the controls div -->
-<div class="tab-container hidden" id="tabContainer">
-    <div class="tabs">
-      <button class="tab-button active" data-tab="rotate">Rotate</button>
-      <button class="tab-button" data-tab="trim">Trim</button>
-      <button class="tab-button" data-tab="audio">Extract Audio</button>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6RHQZWF" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div class="container">
+    <div class="hero-content">
+      <h1>Transform Your Videos <span class="highlight">Instantly</span></h1>
+      <h2>Professional editing tools. Zero quality loss.</h2>
+      
+      <div class="feature-tags">
+          <span class="feature-tag">Rotate</span>
+          <span class="feature-tag">Trim</span>
+          <span class="feature-tag">Extract Audio</span>
+          <span class="feature-tag">Zero Quality Loss</span>
+      </div>
+      
+      <p class="hero-description">Edit videos right in your browser with studio-quality results. No registration, no uploads, no compromises.</p>
+      
+      <div class="privacy-badge">
+          <svg class="privacy-icon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" fill="currentColor"/>
+          </svg>
+          <span>100% Private: All processing happens in your browser</span>
+      </div>
+  </div>
+    <div class="upload-area" id="uploadArea">
+      <div class="upload-icon">
+        <!-- SVG Upload Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm1 16h-2v-4H8l4-4 4 4h-3v4z"
+            fill="var(--primary-color)" />
+        </svg>
+      </div>
+      <p>Drag and drop your video here or click to browse</p>
+      <input type="file" id="videoInput" accept=".mp4,.mov" style="display: none;">
     </div>
-    
-    <div class="tab-content">
-      <!-- Rotate Tab -->
-      <div class="tab-pane active" id="rotateTab">
-        <div class="select-container">
-          <select id="rotationAngle">
-            <option value="" disabled selected>Select rotation angle</option>
-            <option value="90cw">90°</option>
-            <option value="180">180°</option>
-            <option value="90ccw">270°</option>
-          </select>
-        </div>
+
+    <!-- Error message container -->
+    <div class="error-message hidden" id="errorMessage">
+      This video format is not supported. Please try a different video file (.mp4 format recommended).
+    </div>
+
+    <div class="video-preview hidden" id="videoPreview">
+      <video id="video" controls></video>
+      <p class="file-name" id="fileName"></p>
+    </div>
+
+    <!-- Add this after your video preview div and before the controls div -->
+    <div class="tab-container hidden" id="tabContainer">
+      <div class="tabs">
+        <button class="tab-button active" data-tab="rotate">Rotate</button>
+        <button class="tab-button" data-tab="trim">Trim</button>
+        <button class="tab-button" data-tab="audio">Extract Audio</button>
       </div>
-      
-      <!-- Trim Tab -->
-      <div class="tab-pane" id="trimTab">
-        <div class="trim-slider-container">
-          <div class="trim-slider" id="trimSlider">
-            <div class="trim-handle start" id="trimHandleStart"></div>
-            <div class="trim-progress" id="trimProgress"></div>
-            <div class="trim-handle end" id="trimHandleEnd"></div>
+
+      <div class="tab-content">
+        <!-- Rotate Tab -->
+        <div class="tab-pane active" id="rotateTab">
+          <div class="select-container">
+            <select id="rotationAngle">
+              <option value="" disabled selected>Select rotation angle</option>
+              <option value="90cw">90°</option>
+              <option value="180">180°</option>
+              <option value="90ccw">270°</option>
+            </select>
           </div>
-          <div class="trim-timestamps">
-            <div class="trim-time">
-              <label for="startTime">Start:</label>
-              <input type="text" id="startTime" class="time-input" value="00:00:00.000">
-            </div>
-            <div class="trim-time">
-              <label for="endTime">End:</label>
-              <input type="text" id="endTime" class="time-input" value="00:00:00.000">
-            </div>
-          </div>
-          <button id="previewTrimBtn" class="secondary-button">Preview Trim</button>
         </div>
-      </div>
-      
-      <!-- Extract Audio Tab -->
-      <div class="tab-pane" id="audioTab">
-        <div class="audio-format-container">
-            <div class="spinner-container" id="spinnerContainer">
-                <div id="loading"></div>
+
+        <!-- Trim Tab -->
+        <div class="tab-pane" id="trimTab">
+          <div class="trim-slider-container">
+            <div class="trim-slider" id="trimSlider">
+              <div class="trim-handle start" id="trimHandleStart"></div>
+              <div class="trim-progress" id="trimProgress"></div>
+              <div class="trim-handle end" id="trimHandleEnd"></div>
+            </div>
+            <div class="trim-timestamps">
+              <div class="trim-time">
+                <label for="startTime">Start:</label>
+                <input type="text" id="startTime" class="time-input" value="00:00:00.000">
               </div>
+              <div class="trim-time">
+                <label for="endTime">End:</label>
+                <input type="text" id="endTime" class="time-input" value="00:00:00.000">
+              </div>
+            </div>
+            <button id="previewTrimBtn" class="secondary-button">Preview Trim</button>
+          </div>
+        </div>
+
+        <!-- Extract Audio Tab -->
+        <div class="tab-pane" id="audioTab">
+          <div class="audio-format-container">
+            <div class="spinner-container" id="spinnerContainer">
+              <div id="loading"></div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+
+
+    <div class="controls">
+      <button id="downloadBtn" disabled>Download</button>
+    </div>
+
+    <div class="how-it-works-cards">
+      <div class="info-card">
+        <h3>Rotate Videos</h3>
+        <p>Instead of re-encoding your entire video (which would take time and reduce quality), we simply update
+          the rotation matrix in the MP4 file structure.</p>
+        <a href="blog/how-it-works.html" class="learn-more">Learn about MP4 rotation techniques →</a>
+      </div>
+
+      <div class="info-card">
+        <h3>Trim Videos</h3>
+        <p>Trim video files without loosing quality.</p>
+        <a href="blog/how-trimming-works.html" class="learn-more">Learn about MP4 trimming techniques →</a>
+      </div>
+
+      <div class="info-card">
+        <h3>TapTempo</h3>
+        <p>Just tap or click and generate accurate click track</p>
+        <a href="./taptempo.html" class="learn-more">Learn about Our TapTempo→</a>
+      </div>
+
+      <div class="info-card">
+        <h3>Privacy & Security</h3>
+        <p>Since all processing happens locally, your videos remain completely private. No server storage, no
+          data collection.</p>
+        <a href="blog/privacy.html" class="learn-more">Read about our privacy approach →</a>
+      </div>
+    </div>
+
+    <!-- Buy Me a Coffee Button -->
+    <div class="buy-me-coffee">
+      <a href="https://www.buymeacoffee.com/rotately.live"><img
+          src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
     </div>
   </div>
-  
-
-<div class="controls">
-    <button id="downloadBtn" disabled>Download</button>
-</div>
-
-        <div class="how-it-works-cards">
-            <div class="info-card">
-                <h3>Rotate Videos</h3>
-                <p>Instead of re-encoding your entire video (which would take time and reduce quality), we simply update
-                    the rotation matrix in the MP4 file structure.</p>
-                <a href="blog/how-it-works.html" class="learn-more">Learn about MP4 rotation techniques →</a>
-            </div>
-
-            <div class="info-card">
-                <h3>Trim Videos</h3>
-                <p>Trim video files without loosing quality.</p>
-                <a href="blog/how-trimming-works.html" class="learn-more">Learn about MP4 trimming techniques →</a>
-            </div>
-
-            <div class="info-card">
-                <h3>TapTempo</h3>
-                <p>Just tap or click and generate accurate click track</p>
-                <a href="./click-track.html" class="learn-more">Learn about Our TapTempo→</a>
-            </div>
-
-            <div class="info-card">
-                <h3>Privacy & Security</h3>
-                <p>Since all processing happens locally, your videos remain completely private. No server storage, no
-                    data collection.</p>
-                <a href="blog/privacy.html" class="learn-more">Read about our privacy approach →</a>
-            </div>
-        </div>
-
-        <!-- Buy Me a Coffee Button -->
-        <div class="buy-me-coffee">
-            <a href="https://www.buymeacoffee.com/rotately.live"><img
-                    src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=rotately.live&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
-        </div>
-    </div>
-    <script src="js/utils.js"></script>
-    <script src="js/video-handler.js" type="module"></script>
-    <script src="js/trim-handler.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/video-handler.js" type="module"></script>
+  <script src="js/trim-handler.js"></script>
 </body>
+
 </html>
