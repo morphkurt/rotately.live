@@ -1,6 +1,6 @@
 import { findVideoTkhdOffset, calculateMatrixOffset, modifyTkhdMatrix, getMatrix } from '../dist/mp4_tkhd.js';
 import { findElstAtoms, modifyElstAtom } from '../dist/mp4_elst.js';
-import init, { parse_mp4 } from "./mp4_parser.js";
+import init, { parse_mp4, trim_mp4 } from "./mp4_parser.js";
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'trim':
                 // Call your existing trim download function
                 pushDataLayerEvent("video_trim");
-                handleDownload();
+                handleTrim();
                 break;
             case 'audio':
                 // New function to handle audio extraction
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Create and trigger download
                     const blob = new Blob([new Uint8Array(parsedData)], { type: 'audio/mp4' });
                     const url = URL.createObjectURL(blob);
-    
+
                     const link = document.createElement('a');
                     link.href = url;
                     link.download = 'extracted_audio.m4a'
@@ -143,7 +143,39 @@ document.addEventListener('DOMContentLoaded', function () {
             } finally {
                 spinnerContainer.style.display = 'none'; // Show
             }
-        },250);   
+        }, 250);
+    }
+
+    function handleTrim() {
+        spinnerContainer.style.display = 'flex'; // Show
+
+        // Get trim times
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+        const startTimeUs = BigInt(Math.round(parseTime(startTimeInput.value) * 1_000_000));
+        const endTimeUs = BigInt(Math.round(parseTime(endTimeInput.value) * 1_000_000));
+
+
+        setTimeout(() => {
+            try {
+                const parsedData = trim_mp4(fileBuffer, startTimeUs, endTimeUs);
+                if (parsedData) {
+                    // Create and trigger download
+                    const blob = new Blob([new Uint8Array(parsedData)], { type: 'video/mp4' });
+                    const url = URL.createObjectURL(blob);
+
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'trimmed_video.mp4'
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                spinnerContainer.style.display = 'none'; // Show
+            }
+        }, 250);
     }
 
 
@@ -232,25 +264,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Video:', originalVideo.name);
         console.log('Selected rotation angle:', rotationAngle.value);
 
-        // Get trim times
-        const startTimeInput = document.getElementById('startTime');
-        const endTimeInput = document.getElementById('endTime');
-        const startTimeUs = BigInt(Math.round(parseTime(startTimeInput.value) * 1_000_000));
-        const endTimeUs = BigInt(Math.round(parseTime(endTimeInput.value) * 1_000_000));
-
         // Process video
         const tkhdOffsetAndSize = findVideoTkhdOffset(fileBuffer);
-        const elstAtoms = findElstAtoms(fileBuffer);
-
-        // Apply trimming
-        if (elstAtoms) {
-            for (let index = 0; index < elstAtoms.length; index++) {
-                let atom = elstAtoms[index];
-                if (atom.entries.length == 1) {
-                    modifyElstAtom(fileBuffer, atom, startTimeUs, endTimeUs);
-                }
-            }
-        }
 
         // Apply rotation
         if (tkhdOffsetAndSize) {
